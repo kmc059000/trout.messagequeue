@@ -1,36 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 
 namespace trout.emailservice
 {
-    public class MailMessageSender
+    public class EmailQueueSender
     {
         private readonly IMailMessageSenderConfig Config;
 
-        public MailMessageSender(IMailMessageSenderConfig config)
+        public EmailQueueSender(IMailMessageSenderConfig config)
         {
             Config = config;
-        }
-
-        public void QueueMessage(MailMessage message)
-        {
-            using (var ctx = new EmailQueueDbContext())
-            {
-                ctx.EmailQueueItems.Add(new EmailQueueItem()
-                                            {
-                                                To = message.To.ToString(),
-                                                Cc = message.CC.ToString(),
-                                                Bcc = message.Bcc.ToString(),
-                                                Subject = message.Subject,
-                                                Body = message.Body,
-                                                IsSent = false,
-                                                NumberTries = 0,
-                                                LastTryDate = null,
-                                                SendDate = null
-                                            });
-                ctx.SaveChanges();
-            }
         }
 
         public void SendQueuedMessages()

@@ -73,7 +73,7 @@ namespace trout.emailserviceclient
 
         private void Add()
         {
-            var sender = new MailMessageSender(new MailMessageSenderConfig());
+            var sender = new MailMessageQueue();
 
             var random = new Random();
 
@@ -87,13 +87,13 @@ namespace trout.emailserviceclient
 
                 mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
 
-                sender.QueueMessage(mailMessage);
+                sender.EnqueueMessage(mailMessage);
             }
         }
 
         private void Send()
         {
-            var sender = new MailMessageSender(new MailMessageSenderConfig());
+            var sender = new EmailQueueSender(new MailMessageSenderConfig());
 
             sender.SendQueuedMessages();
         }

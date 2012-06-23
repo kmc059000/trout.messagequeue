@@ -49,8 +49,9 @@
   <ItemGroup>
     <Compile Include="EmailQueueDbContext.cs" />
     <Compile Include="EmailQueueItem.cs" />
+    <Compile Include="EmailQueueSender.cs" />
     <Compile Include="IMailMessageSenderConfig.cs" />
-    <Compile Include="MailMessageSender.cs" />
+    <Compile Include="MailMessageQueue.cs" />
     <Compile Include="MailMessageSenderConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
