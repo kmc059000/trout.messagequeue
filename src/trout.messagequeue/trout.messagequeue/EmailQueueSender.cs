@@ -9,21 +9,23 @@ namespace trout.emailservice
     public class EmailQueueSender
     {
         private readonly IMailMessageSenderConfig Config;
+        private readonly ISmtpClient SmtpClient;
 
-        public EmailQueueSender(IMailMessageSenderConfig config)
+        public EmailQueueSender(IMailMessageSenderConfig config, ISmtpClient smtpClient)
         {
             Config = config;
+            SmtpClient = smtpClient;
         }
 
-        public void SendQueuedMessages()
+        public IEnumerable<DequeueResultItem> SendQueuedMessages()
         {
+            List<DequeueResultItem> results = new List<DequeueResultItem>();
+
             using (var ctx = new EmailQueueDbContext())
             {
                 var messages = from e in ctx.EmailQueueItems
                                where e.IsSent == false && e.NumberTries < Config.MaxTries
                                select e;
-
-                SmtpClient client = new SmtpClient();
 
                 foreach (var message in messages.ToList())
                 {
@@ -40,24 +42,29 @@ namespace trout.emailservice
 
                     try
                     {
-                        client.Send(mailMessage);
+                        SmtpClient.Send(mailMessage);
+                        results.Add(new DequeueResultItem(message, true, "Success"));
                     }
                     catch (SmtpFailedRecipientsException failedRecipientsException)
                     {
-                        //should actually retry for those addresses that were failed on
                         message.IsSent = false;
                         message.SendDate = null;
+                        results.Add(new DequeueResultItem(message, false,
+                                                          string.Format("Failed Recipient: {0} - {1}",
+                                                                        failedRecipientsException.StatusCode,
+                                                                        failedRecipientsException.FailedRecipient)));
                     }
-                    catch (InvalidOperationException ioe)
+                    catch (InvalidOperationException invalidOperationException)
                     {
-                        //something is wrong with email
                         message.IsSent = false;
                         message.SendDate = null;
+                        results.Add(new DequeueResultItem(message, false, "Invalid Operation"));
                     }
                     catch (SmtpException smtpException)
                     {
                         message.IsSent = false;
                         message.SendDate = null;
+                        results.Add(new DequeueResultItem(message, false, "SMTP Exception"));
                     }
                     finally
                     {
@@ -68,6 +75,8 @@ namespace trout.emailservice
 
                 ctx.SaveChanges();
             }
+
+            return results;
         }
     }
 }

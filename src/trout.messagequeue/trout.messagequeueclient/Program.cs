@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using trout.emailservice;
+using SmtpClient = trout.emailservice.SmtpClient;
 
 namespace trout.emailserviceclient
 {
@@ -93,7 +94,7 @@ namespace trout.emailserviceclient
 
         private void Send()
         {
-            var sender = new EmailQueueSender(new MailMessageSenderConfig());
+            var sender = new EmailQueueSender(new MailMessageSenderConfig(), new SmtpClient());
 
             sender.SendQueuedMessages();
         }
