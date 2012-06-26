@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using trout.emailservice;
-using SmtpClient = trout.emailservice.SmtpClient;
+using trout.emailservice.config;
+using trout.emailservice.queue;
+using SmtpClient = trout.emailservice.infrastrucure.SmtpClient;
 
 namespace trout.emailserviceclient
 {

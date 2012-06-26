@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-namespace trout.emailservice
+namespace trout.emailservice.model
 {
     public class EmailQueueDbContext : DbContext
     {

@@ -1,4 +1,6 @@
-﻿namespace trout.emailservice
+﻿using trout.emailservice.model;
+
+namespace trout.emailservice.queue
 {
     public class DequeueResultItem
     {

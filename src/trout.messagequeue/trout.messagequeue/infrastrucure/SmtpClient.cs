@@ -1,10 +1,10 @@
 ﻿using System.Net.Mail;
 
-namespace trout.emailservice
+namespace trout.emailservice.infrastrucure
 {
     public class SmtpClient : ISmtpClient
     {
-        System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+        readonly System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
 
         public void Send(MailMessage message)
         {
