@@ -48,7 +48,6 @@ namespace trout.emailservice.queue
                 });
             }
 
-
             Context.SaveChanges();
         }
     }

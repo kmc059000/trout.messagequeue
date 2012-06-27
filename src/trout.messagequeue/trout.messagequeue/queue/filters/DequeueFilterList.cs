@@ -12,7 +12,22 @@ namespace trout.emailservice.queue.filters
             And,
         }
 
-        private Queue<KeyValuePair<FilterOperand, DequeueFilter>> Filters = new Queue<KeyValuePair<FilterOperand, DequeueFilter>>();
+        private readonly Queue<KeyValuePair<FilterOperand, DequeueFilter>> Filters = new Queue<KeyValuePair<FilterOperand, DequeueFilter>>();
+
+        public DequeueFilterList()
+        {
+            
+        }
+
+        /// <summary>
+        /// Creates a new FilterList with a initial set of filters
+        /// </summary>
+        /// <param name="filterItems"></param>
+        private DequeueFilterList(Queue<KeyValuePair<FilterOperand, DequeueFilter>> filterItems)
+        {
+            Filters = filterItems;
+        }
+
 
         public DequeueFilterList And(DequeueFilter filter)
         {
@@ -41,10 +56,21 @@ namespace trout.emailservice.queue.filters
                 }
                 
                 length--;
+
+                //add filter back at the end of the line the filter so we can use this FilterList over and over. 
+                //Essentially we iterate in place except that it isn't in place.
+                //Should always be an O(1) operation because I don't think the capacity of the queue ever decreases. 
+                //If O(1), who cares about this then, this function is bounded by O(n)
+                Filters.Enqueue(filter);
             }
 
             return query.ToArray();
             
+        }
+
+        public DequeueFilterList Clone()
+        {
+            return new DequeueFilterList(this.Filters);
         }
     }
 }

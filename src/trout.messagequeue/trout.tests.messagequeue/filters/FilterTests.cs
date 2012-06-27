@@ -24,9 +24,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void DefaultResults()
         {
-            var filters  = new DequeueFilterList(Context);
+            var filters  = new DequeueFilterList();
 
-            var result = filters.Filter().Select(r => r.ID);
+            var result = filters.Filter(Context).Select(r => r.ID);
             var expected = new int[] {3};
 
             Assert.That(AreArraysEqual(result, expected));
@@ -35,10 +35,27 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void IdDequeueFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new IdDequeueFilter(1)).Filter().Select(r => r.ID);
+            var result = filters.And(new IdDequeueFilter(1)).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 1 };
+
+            Assert.That(AreArraysEqual(result, expected));
+        }
+
+        [Test]
+        public void CanFilterTwice()
+        {
+            var filters = new DequeueFilterList();
+
+            var result = filters.And(new IdDequeueFilter(1)).Filter(Context).Select(r => r.ID);
+            var expected = new int[] { 1 };
+
+            Assert.That(AreArraysEqual(result, expected));
+
+            //do it again with the same filterset
+            result = filters.Filter(Context).Select(r => r.ID);
+            expected = new int[] { 1 };
 
             Assert.That(AreArraysEqual(result, expected));
         }
@@ -46,9 +63,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void BodyContainsFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new BodyContainsFilter("SEARCHSTRING")).Filter().Select(r => r.ID);
+            var result = filters.And(new BodyContainsFilter("SEARCHSTRING")).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 2 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -57,9 +74,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void BodyExactFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new BodyExactFilter("Test Message - EXACTSEARCH")).Filter().Select(r => r.ID);
+            var result = filters.And(new BodyExactFilter("Test Message - EXACTSEARCH")).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 3 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -68,9 +85,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void DateRangeFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new DateRangeFilter(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2))).Filter().Select(r => r.ID);
+            var result = filters.And(new DateRangeFilter(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2))).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 3 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -79,20 +96,23 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void RetriesFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new RetriesFilter(0)).Filter().Select(r => r.ID);
+            var result = filters.And(new RetriesFilter(0)).Filter(Context).Select(r => r.ID);
             var expected = new int[] {  };
 
             Assert.That(AreArraysEqual(result, expected));
 
+            filters = new DequeueFilterList();
 
-            result = filters.And(new RetriesFilter(1)).Filter().Select(r => r.ID);
+            result = filters.And(new RetriesFilter(1)).Filter(Context).Select(r => r.ID);
             expected = new int[] { 3 };
 
             Assert.That(AreArraysEqual(result, expected));
 
-            result = filters.And(new RetriesFilter(6)).Filter().Select(r => r.ID);
+            filters = new DequeueFilterList();
+
+            result = filters.And(new RetriesFilter(6)).Filter(Context).Select(r => r.ID);
             expected = new int[] {1, 2, 3};
 
             Assert.That(AreArraysEqual(result, expected));
@@ -101,14 +121,16 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void SentStatusFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new SentStatusDequeueFilter(false)).Filter().Select(r => r.ID);
+            var result = filters.And(new SentStatusDequeueFilter(false)).Filter(Context).Select(r => r.ID);
             var expected = new int[] {2, 3};
 
             Assert.That(AreArraysEqual(result, expected));
 
-            result = filters.And(new SentStatusDequeueFilter(true)).Filter().Select(r => r.ID);
+            filters = new DequeueFilterList();
+
+            result = filters.And(new SentStatusDequeueFilter(true)).Filter(Context).Select(r => r.ID);
             expected = new int[] { 1 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -117,9 +139,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void SubjectContainsFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new SubjectContainsFilter("SOMESUBJECTSTRING")).Filter().Select(r => r.ID);
+            var result = filters.And(new SubjectContainsFilter("SOMESUBJECTSTRING")).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 2 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -128,9 +150,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void SubjectExactFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new SubjectExactFilter("EXACTSUBJECTSTRING")).Filter().Select(r => r.ID);
+            var result = filters.And(new SubjectExactFilter("EXACTSUBJECTSTRING")).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 3 };
 
             Assert.That(AreArraysEqual(result, expected));
@@ -139,9 +161,9 @@ namespace trout.tests.messagequeue.filters
         [Test]
         public void ToFilterResults()
         {
-            var filters = new DequeueFilterList(Context);
+            var filters = new DequeueFilterList();
 
-            var result = filters.And(new ToFilter("user1@example.com")).Filter().Select(r => r.ID);
+            var result = filters.And(new ToFilter("user1@example.com")).Filter(Context).Select(r => r.ID);
             var expected = new int[] { 1 };
 
             Assert.That(AreArraysEqual(result, expected));

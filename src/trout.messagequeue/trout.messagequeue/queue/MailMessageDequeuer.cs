@@ -62,12 +62,16 @@ namespace trout.emailservice.queue
                 }
                 catch (InvalidOperationException invalidOperationException)
                 {
+                    //.NET documentation isn't too clear on why to expect this exception. we shall find out and improve this here
+
                     message.IsSent = false;
                     message.SendDate = null;
                     results.Add(new DequeueResultItem(message, false, "Invalid Operation"));
                 }
                 catch (SmtpException smtpException)
                 {
+                    //.NET documentation isn't too clear on why to expect this exception. we shall find out and improve this here
+
                     message.IsSent = false;
                     message.SendDate = null;
                     results.Add(new DequeueResultItem(message, false, "SMTP Exception"));
