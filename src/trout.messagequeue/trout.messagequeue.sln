@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BA967D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trout.tests.messagequeue", "trout.tests.messagequeue\trout.tests.messagequeue.csproj", "{3CE95D48-C30B-44FF-88D8-B178E9D15D22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,16 @@ Global
 		{6BFC776F-0DB5-4184-AA80-7BC1742021F4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6BFC776F-0DB5-4184-AA80-7BC1742021F4}.Release|x86.ActiveCfg = Release|x86
 		{6BFC776F-0DB5-4184-AA80-7BC1742021F4}.Release|x86.Build.0 = Release|x86
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3CE95D48-C30B-44FF-88D8-B178E9D15D22}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

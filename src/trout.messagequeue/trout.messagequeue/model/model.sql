@@ -10,6 +10,7 @@ create table EmailQueueItem
 	IsSent bit not null,
 	IsFailed bit not null,
 	NumberTries tinyint not null,
+	CreateDate datetime not null,
 	LastTryDate datetime null,
 	SendDate datetime null
 )

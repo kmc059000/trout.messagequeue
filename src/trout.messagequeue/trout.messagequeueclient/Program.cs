@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using trout.emailservice;
 using trout.emailservice.config;
+using trout.emailservice.model;
 using trout.emailservice.queue;
 using SmtpClient = trout.emailservice.infrastrucure.SmtpClient;
 
@@ -76,7 +77,7 @@ namespace trout.emailserviceclient
 
         private void Add()
         {
-            var sender = new MailMessageQueue();
+            var sender = new MailMessageQueue(new EmailQueueDbContext());
 
             var random = new Random();
 
@@ -96,7 +97,7 @@ namespace trout.emailserviceclient
 
         private void Send()
         {
-            var sender = new EmailQueueSender(new MailMessageSenderConfig(), new SmtpClient());
+            var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new SmtpClient(), new EmailQueueDbContext());
 
             sender.SendQueuedMessages();
         }

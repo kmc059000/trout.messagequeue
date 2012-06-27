@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
 
 namespace trout.emailservice.model
 {
-    public class EmailQueueDbContext : DbContext
+    public class EmailQueueDbContext : DbContext, IEmailQueueDbContext
     {
         public DbSet<EmailQueueItem> EmailQueueItems { get; set; }
 
@@ -14,7 +16,7 @@ namespace trout.emailservice.model
         public EmailQueueDbContext(string connString)
             : base (connString)
         {
-            
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -22,6 +24,17 @@ namespace trout.emailservice.model
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<EmailQueueItem>().HasKey(i => i.ID);
+        }
+
+
+        public IQueryable<EmailQueueItem> FetchEmailQueueItems()
+        {
+            return this.EmailQueueItems;
+        }
+
+        public void Add(EmailQueueItem item)
+        {
+            this.EmailQueueItems.Add(item);
         }
     }
 }

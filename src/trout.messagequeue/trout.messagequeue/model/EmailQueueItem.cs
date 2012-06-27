@@ -13,6 +13,7 @@ namespace trout.emailservice.model
         public bool IsSent { get; set; }
         public bool IsFailed { get; set; }
         public byte NumberTries { get; set; }
+        public DateTime CreateDate { get; set; }
         public DateTime? LastTryDate { get; set; }
         public DateTime? SendDate { get; set; }
     }

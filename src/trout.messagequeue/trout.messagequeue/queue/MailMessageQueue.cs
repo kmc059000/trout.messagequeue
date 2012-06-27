@@ -6,11 +6,16 @@ namespace trout.emailservice.queue
 {
     public class MailMessageQueue
     {
+        private readonly IEmailQueueDbContext Context;
+
+        public MailMessageQueue(IEmailQueueDbContext context)
+        {
+            Context = context;
+        }
+
         public void EnqueueMessage(MailMessage message)
         {
-            using (var ctx = new EmailQueueDbContext())
-            {
-                ctx.EmailQueueItems.Add(new EmailQueueItem()
+            Context.Add(new EmailQueueItem()
                                             {
                                                 To = message.To.ToString(),
                                                 Cc = message.CC.ToString(),
@@ -22,33 +27,29 @@ namespace trout.emailservice.queue
                                                 LastTryDate = null,
                                                 SendDate = null
                                             });
-                ctx.SaveChanges();
-            }
+            Context.SaveChanges();
         }
 
         public void EnqueueMessages(IEnumerable<MailMessage> messages)
         {
-            using (var ctx = new EmailQueueDbContext())
+            foreach (var message in messages)
             {
-                foreach (var message in messages)
+                Context.Add(new EmailQueueItem()
                 {
-                    ctx.EmailQueueItems.Add(new EmailQueueItem()
-                    {
-                        To = message.To.ToString(),
-                        Cc = message.CC.ToString(),
-                        Bcc = message.Bcc.ToString(),
-                        Subject = message.Subject,
-                        Body = message.Body,
-                        IsSent = false,
-                        NumberTries = 0,
-                        LastTryDate = null,
-                        SendDate = null
-                    });
-                }
-
-
-                ctx.SaveChanges();
+                    To = message.To.ToString(),
+                    Cc = message.CC.ToString(),
+                    Bcc = message.Bcc.ToString(),
+                    Subject = message.Subject,
+                    Body = message.Body,
+                    IsSent = false,
+                    NumberTries = 0,
+                    LastTryDate = null,
+                    SendDate = null
+                });
             }
+
+
+            Context.SaveChanges();
         }
     }
 }
