@@ -24,11 +24,14 @@ namespace trout.emailservice.queue
 
         public IEnumerable<DequeueResultItem> SendQueuedMessages()
         {
+            return this.SendQueuedMessages(new DequeueFilterList());
+        }
+
+        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters)
+        {
             List<DequeueResultItem> results = new List<DequeueResultItem>();
 
-            var messages = from e in Context.FetchEmailQueueItems()
-                           where e.IsSent == false && e.NumberTries < Config.MaxTries
-                           select e;
+            var messages = filters.Filter(Context);
 
             foreach (var message in messages.ToList())
             {
@@ -80,12 +83,6 @@ namespace trout.emailservice.queue
 
 
             return results;
-        }
-
-        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters)
-        {
-            //need to filter list and send
-            throw new NotImplementedException();
         }
 
     }

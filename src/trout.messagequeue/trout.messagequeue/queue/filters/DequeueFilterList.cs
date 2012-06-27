@@ -7,13 +7,6 @@ namespace trout.emailservice.queue.filters
 {
     public class DequeueFilterList
     {
-        private readonly IEmailQueueDbContext Context;
-
-        public DequeueFilterList(IEmailQueueDbContext context)
-        {
-            Context = context;
-        }
-
         private enum FilterOperand
         {
             And,
@@ -27,7 +20,7 @@ namespace trout.emailservice.queue.filters
             return this;
         }
 
-        public IEnumerable<EmailQueueItem> Filter()
+        public IEnumerable<EmailQueueItem> Filter(IEmailQueueDbContext context)
         {
             if(Filters.Count == 0)
             {
@@ -36,7 +29,7 @@ namespace trout.emailservice.queue.filters
 
             int length = Filters.Count;
 
-            var query = Context.FetchEmailQueueItems().AsQueryable();
+            var query = context.FetchEmailQueueItems().AsQueryable();
 
             while (length > 0)
             {
