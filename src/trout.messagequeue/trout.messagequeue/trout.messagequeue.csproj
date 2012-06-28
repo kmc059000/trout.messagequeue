@@ -69,6 +69,12 @@
     <Compile Include="queue\filters\SubjectContainsFilter.cs" />
     <Compile Include="queue\filters\SubjectExactFilter.cs" />
     <Compile Include="queue\filters\ToFilter.cs" />
+    <Compile Include="queue\overrides\BccOverride.cs" />
+    <Compile Include="queue\overrides\BodyOverride.cs" />
+    <Compile Include="queue\overrides\CcOverride.cs" />
+    <Compile Include="queue\overrides\MailMessageOverride.cs" />
+    <Compile Include="queue\overrides\SubjectOverride.cs" />
+    <Compile Include="queue\overrides\ToOverride.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
