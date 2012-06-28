@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using trout.emailservice;
-using trout.emailservice.config;
-using trout.emailservice.model;
-using trout.emailservice.queue;
-using SmtpClient = trout.emailservice.infrastrucure.SmtpClient;
+using NDesk.Options;
+using trout.emailserviceclient.commands;
 
 namespace trout.emailserviceclient
 {
@@ -18,26 +13,11 @@ namespace trout.emailserviceclient
             new EmailServiceClient().Start(args);
         }
 
-        private string[] Arguments;
-
-        private IEnumerable<Command> GetCommands()
-        {
-            return new[]
-                       {
-                           new Command("help", Help),
-                           new Command("add", Add),
-                           new Command("send", Send),
-                           new Command("exit", Exit),
-                       };
-        }
-
         public void Start(string[] args)
         {
-            var commands = GetCommands();
-
             if (args.Length > 0)
             {
-                ExecuteCommand(args, commands);
+                ExecuteCommand(args);
             }
             else
             {
@@ -48,63 +28,38 @@ namespace trout.emailserviceclient
 
                     if (strCommand.Length > 0)
                     {
-                        ExecuteCommand(strCommand, commands);
+                        ExecuteCommand(strCommand);
                     }
                 }
             }
         }
 
-        private void ExecuteCommand(string[] strCommand, IEnumerable<Command> commands)
+        private void ExecuteCommand(string[] args)
         {
-            var foundCommand = commands.FirstOrDefault(c => c.Name == strCommand[0].Trim().ToLower());
+            Command command = null;
+            List<string> remainingArgs = null;
 
-            if (foundCommand != null)
+            OptionSet optionSet = new OptionSet()
+                .Add("?|help", v => command = new HelpCommand())
+                .Add("add", v => command = new AddCommand())
+                .Add("send", v => command = new SendCommand())
+                .Add("exit", v => command = new ExitCommand())
+                ;
+
+            try
             {
-                this.Arguments = strCommand.Skip(1).ToArray();
-
-                foundCommand.Do();
+                remainingArgs = optionSet.Parse(args);
             }
-        }
-
-
-
-        private void Help()
-        {
-            Console.WriteLine("add - adds 5 randomly generated email");
-            Console.WriteLine("send - sends all pending emails");
-            Console.WriteLine("exit - exits");
-        }
-
-        private void Add()
-        {
-            var sender = new MailMessageQueue(new EmailQueueDbContext());
-
-            var random = new Random();
-
-            for (int i = 0; i < 5; i++)
+            catch (OptionException)
             {
-                var mailMessage = new MailMessage();
-                mailMessage.To.Add("user@example.com");
-                mailMessage.CC.Add("usercc@example.com");
-                mailMessage.Bcc.Add("userbcc@example.com");
-                mailMessage.Subject = "Test Email - " + random.Next(1000000);
-
-                mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
-
-                sender.EnqueueMessage(mailMessage);
+                Console.WriteLine("Error");
             }
-        }
 
-        private void Send()
-        {
-            var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new SmtpClient(), new EmailQueueDbContext());
+            if (command != null && remainingArgs != null)
+            {
+                command.Do(remainingArgs.ToArray());
+            }
 
-            sender.SendQueuedMessages();
-        }
-
-        private void Exit()
-        {
-            Environment.Exit(0);
         }
     }
 }
