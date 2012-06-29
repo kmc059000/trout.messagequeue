@@ -9,7 +9,7 @@ using trout.emailservice.queue.overrides;
 
 namespace trout.emailserviceclient.commands
 {
-    class SendCommand : Command
+    class ListCommand : Command
     {
         private static DequeueFilterList filterList;
         private static OverrideList overrideList;
@@ -20,7 +20,13 @@ namespace trout.emailserviceclient.commands
 
             var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new SmtpClient(), new EmailQueueDbContext());
 
-            sender.SendQueuedMessages(filterList, overrideList);
+            var results = sender.GetQueuedMessages(filterList, overrideList);
+
+            foreach (var message in results)
+            {
+                Console.WriteLine(message.EmailQueueItem.ID);
+            }
+
         }
 
         protected override void ParseArguments(string[] args)

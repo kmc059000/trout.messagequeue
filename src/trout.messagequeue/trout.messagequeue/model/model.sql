@@ -1,5 +1,5 @@
 ﻿
-create table EmailQueueItem
+create table EmailQueueItems
 (
 	ID int PRIMARY KEY identity(1,1) not null,
 	[To] nvarchar(1000) default('') not null,

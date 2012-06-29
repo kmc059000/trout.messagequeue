@@ -44,6 +44,7 @@ namespace trout.emailserviceclient
                 .Add("add", v => command = new AddCommand())
                 .Add("send", v => command = new SendCommand())
                 .Add("exit", v => command = new ExitCommand())
+                .Add("list", v => command = new ListCommand())
                 ;
 
             try

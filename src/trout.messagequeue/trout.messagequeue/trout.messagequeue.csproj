@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="model\IEmailQueueDbContext.cs" />
+    <Compile Include="queue\DequeueListItem.cs" />
     <Compile Include="queue\filters\BodyContainsFilter.cs" />
     <Compile Include="queue\filters\BodyExactFilter.cs" />
     <Compile Include="queue\filters\DateRangeFilter.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="queue\filters\SubjectContainsFilter.cs" />
     <Compile Include="queue\filters\SubjectExactFilter.cs" />
     <Compile Include="queue\filters\ToFilter.cs" />
+    <Compile Include="queue\overrides\OverrideList.cs" />
     <Compile Include="queue\overrides\BccOverride.cs" />
     <Compile Include="queue\overrides\BodyOverride.cs" />
     <Compile Include="queue\overrides\CcOverride.cs" />

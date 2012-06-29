@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using trout.emailservice.model;
 
@@ -16,17 +17,19 @@ namespace trout.emailservice.queue
         public void EnqueueMessage(MailMessage message)
         {
             Context.Add(new EmailQueueItem()
-                                            {
-                                                To = message.To.ToString(),
-                                                Cc = message.CC.ToString(),
-                                                Bcc = message.Bcc.ToString(),
-                                                Subject = message.Subject,
-                                                Body = message.Body,
-                                                IsSent = false,
-                                                NumberTries = 0,
-                                                LastTryDate = null,
-                                                SendDate = null
-                                            });
+                            {
+                                To = message.To.ToString(),
+                                Cc = message.CC.ToString(),
+                                Bcc = message.Bcc.ToString(),
+                                Subject = message.Subject,
+                                Body = message.Body,
+                                IsSent = false,
+                                CreateDate = DateTime.Now,
+                                NumberTries = 0,
+                                LastTryDate = null,
+                                SendDate = null
+                            });
+
             Context.SaveChanges();
         }
 

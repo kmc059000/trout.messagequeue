@@ -6,6 +6,7 @@ using trout.emailservice.config;
 using trout.emailservice.infrastrucure;
 using trout.emailservice.model;
 using trout.emailservice.queue.filters;
+using trout.emailservice.queue.overrides;
 
 namespace trout.emailservice.queue
 {
@@ -24,10 +25,21 @@ namespace trout.emailservice.queue
 
         public IEnumerable<DequeueResultItem> SendQueuedMessages()
         {
-            return this.SendQueuedMessages(new DequeueFilterList());
+            return this.SendQueuedMessages(new DequeueFilterList(), new OverrideList());
         }
 
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters)
+        {
+            return this.SendQueuedMessages(filters, new OverrideList());
+        }
+
+        public IEnumerable<DequeueResultItem> SendQueuedMessages(OverrideList overrideList)
+        {
+            return this.SendQueuedMessages(new DequeueFilterList(), overrideList);
+        }
+
+
+        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
             List<DequeueResultItem> results = new List<DequeueResultItem>();
 
@@ -42,6 +54,8 @@ namespace trout.emailservice.queue
                 mailMessage.Bcc.Add(message.Bcc);
                 mailMessage.Subject = message.To;
                 mailMessage.Body = message.Body;
+
+                mailMessage = overrides.ApplyOverrides(mailMessage);
 
                 message.IsSent = true;
                 message.SendDate = DateTime.Now;
@@ -89,5 +103,28 @@ namespace trout.emailservice.queue
             return results;
         }
 
+        public IEnumerable<DequeueListItem> GetQueuedMessages(DequeueFilterList filters, OverrideList overrides)
+        {
+            List<DequeueListItem> results = new List<DequeueListItem>();
+
+            var messages = filters.Filter(Context);
+
+            foreach (var message in messages.ToList())
+            {
+                var mailMessage = new MailMessage();
+                mailMessage.From = Config.FromAddress;
+                mailMessage.To.Add(message.To);
+                mailMessage.CC.Add(message.Cc);
+                mailMessage.Bcc.Add(message.Bcc);
+                mailMessage.Subject = message.To;
+                mailMessage.Body = message.Body;
+
+                mailMessage = overrides.ApplyOverrides(mailMessage);
+
+                results.Add(new DequeueListItem(message, mailMessage));
+            }
+
+            return results;
+        }
     }
 }

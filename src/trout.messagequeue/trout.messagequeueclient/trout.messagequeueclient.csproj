@@ -54,6 +54,7 @@
     <Compile Include="commands\AddCommand.cs" />
     <Compile Include="arguments\Options.cs" />
     <Compile Include="commands\Command.cs" />
+    <Compile Include="commands\ListCommand.cs" />
     <Compile Include="commands\ExitCommand.cs" />
     <Compile Include="commands\HelpCommand.cs" />
     <Compile Include="Program.cs" />

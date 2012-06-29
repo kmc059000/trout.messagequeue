@@ -57,7 +57,7 @@ namespace trout.emailservice.queue.filters
                 
                 length--;
 
-                //add filter back at the end of the line the filter so we can use this FilterList over and over. 
+                //add filter back at the end of the queue so we can use this FilterList over and over. 
                 //Essentially we iterate in place except that it isn't in place.
                 //Should always be an O(1) operation because I don't think the capacity of the queue ever decreases. 
                 //If O(1), who cares about this then, this function is bounded by O(n)

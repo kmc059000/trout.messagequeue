@@ -12,24 +12,28 @@ namespace trout.emailservice.queue.overrides
         protected string overrideString, prependString, appendString;
         protected bool clear;
 
-        public void Override(string value)
+        public MailMessageOverride Override(string value)
         {
             overrideString = value;
+            return this;
         }
 
-        public void Prepend(string value)
+        public MailMessageOverride Prepend(string value)
         {
             prependString += value;
+            return this;
         }
 
-        public void Append(string value)
+        public MailMessageOverride Append(string value)
         {
             appendString += value;
+            return this;
         }
 
-        public void Clear()
+        public MailMessageOverride Clear()
         {
             clear = true;
+            return this;
         }
 
         /// <summary>
