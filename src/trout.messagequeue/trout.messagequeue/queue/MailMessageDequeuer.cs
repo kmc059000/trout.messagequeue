@@ -57,44 +57,22 @@ namespace trout.emailservice.queue
 
                 mailMessage = overrides.ApplyOverrides(mailMessage);
 
-                message.IsSent = true;
-                message.SendDate = DateTime.Now;
+                var result = SmtpClient.Send(mailMessage);
+                results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message));
 
-                try
+                if (result.IsSuccess)
                 {
-                    SmtpClient.Send(mailMessage);
-                    results.Add(new DequeueResultItem(message, true, "Success"));
+                    message.IsSent = true;
+                    message.SendDate = DateTime.Now;
                 }
-                catch (SmtpFailedRecipientsException failedRecipientsException)
+                else
                 {
                     message.IsSent = false;
                     message.SendDate = null;
-                    results.Add(new DequeueResultItem(message, false,
-                                                      string.Format("Failed Recipient: {0} - {1}",
-                                                                    failedRecipientsException.StatusCode,
-                                                                    failedRecipientsException.FailedRecipient)));
                 }
-                catch (InvalidOperationException invalidOperationException)
-                {
-                    //.NET documentation isn't too clear on why to expect this exception. we shall find out and improve this here
 
-                    message.IsSent = false;
-                    message.SendDate = null;
-                    results.Add(new DequeueResultItem(message, false, "Invalid Operation"));
-                }
-                catch (SmtpException smtpException)
-                {
-                    //.NET documentation isn't too clear on why to expect this exception. we shall find out and improve this here
-
-                    message.IsSent = false;
-                    message.SendDate = null;
-                    results.Add(new DequeueResultItem(message, false, "SMTP Exception"));
-                }
-                finally
-                {
-                    message.NumberTries++;
-                    message.LastTryDate = DateTime.Now;
-                }
+                message.NumberTries++;
+                message.LastTryDate = DateTime.Now;
             }
 
             Context.SaveChanges();

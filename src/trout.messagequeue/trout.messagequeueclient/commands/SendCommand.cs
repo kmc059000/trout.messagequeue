@@ -18,7 +18,7 @@ namespace trout.emailserviceclient.commands
         {
             ParseArguments(args);
 
-            var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new SmtpClient(), new EmailQueueDbContext());
+            var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new DotNetBuiltInSmtpClient(), new EmailQueueDbContext());
 
             sender.SendQueuedMessages(filterList, overrideList);
         }

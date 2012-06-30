@@ -4,6 +4,6 @@ namespace trout.emailservice.infrastrucure
 {
     public interface ISmtpClient
     {
-        void Send(MailMessage message);
+        SendResult Send(MailMessage mailMessage);
     }
 }
