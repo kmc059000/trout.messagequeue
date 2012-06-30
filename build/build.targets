@@ -1,0 +1,48 @@
+<!--msbuild.exe Build.targets /p:PublishDirectory=C:\_publish-->
+
+<Project ToolsVersion="4.0" DefaultTargets="Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  
+  <PropertyGroup>
+    <ToolsDirectory>$(MSBuildStartupDirectory)\tools</ToolsDirectory>
+    <SourceDirectory>$(MSBuildStartupDirectory)\src</SourceDirectory>
+    <MSBuildCommunityTasksPath>$(ToolsDirectory)\MSBuild.Community.Tasks.v1.2.0.306\Build\</MSBuildCommunityTasksPath>
+    <PublishDirectory>$(MSBuildStartupDirectory)\code_drop\</PublishDirectory>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets"/>
+  <PropertyGroup>
+    <NUnit-ToolPath>$(ToolsDirectory)\NUnit-2.5.10.11092\bin\net-1.1\</NUnit-ToolPath>
+  </PropertyGroup>
+  
+  
+  <ItemGroup>
+    <Solution Include="$(SourceDirectory)\trout.messagequeue\trout.messagequeue.sln"/>
+    <ConsoleProject Include="$(SourceDirectory)\trout.messagequeue\trout.messagequeueclient\trout.messagequeueclient.csproj"/>
+  </ItemGroup>
+
+  <Target Name="RunTests">
+    <ItemGroup>
+      <TestAssemblies Include="$(SourceDirectory)\trout.messagequeue\trout.tests.messagequeue\bin\Release\*.dll" />
+    </ItemGroup>
+    <NUnit ToolPath="$(NUnit-ToolPath)" DisableShadowCopy="true" Assemblies="@(TestAssemblies)" OutputXmlFile="$(PublishDirectory)\test-results.xml" />
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(PublishDirectory)\"></RemoveDir>
+    <MakeDir Directories="$(PublishDirectory)"></MakeDir>
+  </Target>
+
+
+  <Target Name="Publish" DependsOnTargets="Clean">
+    <MSBuild Projects="@(Solution)" Properties="Configuration=Release;"></MSBuild>
+    
+    <MSBuild Projects="@(ConsoleProject)" Properties="Configuration=Release;OutputPath=$(PublishDirectory)\Console"></MSBuild>
+
+    <CallTarget Targets="Clean"></CallTarget>
+    <CallTarget Targets="RunTests"></CallTarget>
+  </Target>
+  
+ 
+
+</Project>
