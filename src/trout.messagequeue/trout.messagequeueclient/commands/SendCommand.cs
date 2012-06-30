@@ -2,6 +2,7 @@
 using NDesk.Options;
 using trout.emailservice.config;
 using trout.emailservice.infrastrucure;
+using trout.emailservice.infrastrucure.dependencies;
 using trout.emailservice.model;
 using trout.emailservice.queue;
 using trout.emailservice.queue.filters;
@@ -18,7 +19,7 @@ namespace trout.emailserviceclient.commands
         {
             ParseArguments(args);
 
-            var sender = new MailMessageDequeuer(new MailMessageSenderConfig(), new DotNetBuiltInSmtpClient(), new EmailQueueDbContext());
+            var sender = DependencyResolver.Resolve<MailMessageDequeuer>();
 
             sender.SendQueuedMessages(filterList, overrideList);
         }

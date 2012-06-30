@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NDesk.Options;
+using trout.emailservice.infrastrucure.dependencies;
 using trout.emailserviceclient.commands;
 
 namespace trout.emailserviceclient
@@ -10,6 +11,7 @@ namespace trout.emailserviceclient
     {
         static void Main(string[] args)
         {
+            Bootstrapper.Setup();
             new EmailServiceClient().Start(args);
         }
 
@@ -40,11 +42,11 @@ namespace trout.emailserviceclient
             List<string> remainingArgs = null;
 
             OptionSet optionSet = new OptionSet()
-                .Add("?|help", v => command = new HelpCommand())
-                .Add("add", v => command = new AddCommand())
-                .Add("send", v => command = new SendCommand())
-                .Add("exit", v => command = new ExitCommand())
-                .Add("list", v => command = new ListCommand())
+                .Add("?|help", v => command = DependencyResolver.Resolve<HelpCommand>())
+                .Add("add", v => command = DependencyResolver.Resolve<AddCommand>())
+                .Add("send", v => command = DependencyResolver.Resolve<SendCommand>())
+                .Add("exit", v => command = DependencyResolver.Resolve<ExitCommand>())
+                .Add("list", v => command = DependencyResolver.Resolve<ListCommand>())
                 ;
 
             try

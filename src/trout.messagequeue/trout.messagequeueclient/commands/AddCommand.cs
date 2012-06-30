@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
+using trout.emailservice.infrastrucure.dependencies;
 using trout.emailservice.model;
 using trout.emailservice.queue;
 
@@ -9,11 +10,11 @@ namespace trout.emailserviceclient.commands
     {
         public override void Do(string[] args)
         {
-            var sender = new MailMessageQueue(new EmailQueueDbContext());
+            var sender = DependencyResolver.Resolve<MailMessageQueue>();
 
             var random = new Random();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 var mailMessage = new MailMessage();
                 mailMessage.To.Add("user@example.com");
