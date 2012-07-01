@@ -24,6 +24,7 @@ namespace trout.messagequeueconsole
                                             c.ForConcreteType<HelpCommand>();
                                             c.ForConcreteType<ListCommand>();
                                             c.ForConcreteType<SendCommand>();
+                                            c.ForConcreteType<EditCommand>();
                                         }
 
 

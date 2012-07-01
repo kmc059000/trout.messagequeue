@@ -39,6 +39,7 @@ namespace trout.messagequeueconsole.commands
                 .Add("send", v => command = DependencyResolver.Resolve<SendCommand>())
                 .Add("exit", v => command = DependencyResolver.Resolve<ExitCommand>())
                 .Add("list", v => command = DependencyResolver.Resolve<ListCommand>())
+                .Add("edit", v => command = DependencyResolver.Resolve<EditCommand>())
                 ;
 
             if (args.Length > 0 && !args[0].StartsWith("-")) args[0] = "-" + args[0];
