@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 
-namespace trout.emailservice.model.repository
+namespace trout.messagequeue.model.repository
 {
     public class DbSetRepository<T> : IRepository<T>  where T : class
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace trout.emailservice.model
+namespace trout.messagequeue.model
 {
     public class EmailQueueItem
     {

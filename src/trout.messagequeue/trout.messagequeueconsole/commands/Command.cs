@@ -1,6 +1,6 @@
-﻿using NDesk.Options;
+﻿using trout.messagequeueconsole.arguments;
 
-namespace trout.emailserviceconsole.commands
+namespace trout.messagequeueconsole.commands
 {
     abstract class Command
     {

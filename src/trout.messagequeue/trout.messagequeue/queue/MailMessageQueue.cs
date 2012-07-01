@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using trout.emailservice.model;
+using trout.messagequeue.model;
 
-namespace trout.emailservice.queue
+namespace trout.messagequeue.queue
 {
     public class MailMessageQueue
     {

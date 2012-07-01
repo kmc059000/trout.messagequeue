@@ -8,8 +8,8 @@
     <ProjectGuid>{6BFC776F-0DB5-4184-AA80-7BC1742021F4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>trout.emailserviceconsole</RootNamespace>
-    <AssemblyName>trout.emailserviceconsole</AssemblyName>
+    <RootNamespace>trout.messagequeueconsole</RootNamespace>
+    <AssemblyName>trout.messagequeueconsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -41,7 +41,7 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>trout.emailserviceconsole.EmailServiceConsole</StartupObject>
+    <StartupObject>trout.messagequeueconsole.EmailServiceConsole</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

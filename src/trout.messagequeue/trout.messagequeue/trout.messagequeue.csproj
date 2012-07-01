@@ -8,8 +8,8 @@
     <ProjectGuid>{3DD623DF-D2A8-40A0-B7C6-DCFA3D32C19F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>trout.emailservice</RootNamespace>
-    <AssemblyName>trout.emailservice</AssemblyName>
+    <RootNamespace>trout.messagequeue</RootNamespace>
+    <AssemblyName>trout.messagequeue</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="config\staticoverrides\StaticOverrideCollection.cs" />
+    <Compile Include="config\staticoverrides\StaticOverrideConfigurationElement.cs" />
+    <Compile Include="config\staticoverrides\StaticOverrideConfigurationSectionGroup.cs" />
     <Compile Include="infrastrucure\dependencies\DependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\IDependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\StructureMapDependencyResolver.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="queue\overrides\BodyOverride.cs" />
     <Compile Include="queue\overrides\CcOverride.cs" />
     <Compile Include="queue\overrides\MailMessageOverride.cs" />
+    <Compile Include="queue\overrides\StaticOverride.cs" />
     <Compile Include="queue\overrides\SubjectOverride.cs" />
     <Compile Include="queue\overrides\ToOverride.cs" />
   </ItemGroup>

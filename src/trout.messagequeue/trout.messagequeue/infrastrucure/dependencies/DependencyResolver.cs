@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace trout.emailservice.infrastrucure.dependencies
+﻿namespace trout.messagequeue.infrastrucure.dependencies
 {
     public static class DependencyResolver
     {

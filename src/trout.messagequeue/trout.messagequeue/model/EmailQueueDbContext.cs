@@ -1,16 +1,14 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using trout.emailservice.model.repository;
+﻿using System.Data.Entity;
+using trout.messagequeue.model.repository;
 
-namespace trout.emailservice.model
+namespace trout.messagequeue.model
 {
     public class EmailQueueDbContext : DbContext, IEmailQueueDbContext
     {
         public DbSet<EmailQueueItem> EmailQueueItems { get; set; }
 
         public EmailQueueDbContext()
-            : base("trout.emailservice")
+            : base("trout.messagequeue")
         {
         }
 

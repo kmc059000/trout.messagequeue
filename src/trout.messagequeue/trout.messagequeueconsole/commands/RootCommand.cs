@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NDesk.Options;
-using trout.emailservice.infrastrucure.dependencies;
+using trout.messagequeue.infrastrucure.dependencies;
+using trout.messagequeueconsole.arguments;
 
-namespace trout.emailserviceconsole.commands
+namespace trout.messagequeueconsole.commands
 {
     class RootCommand
     {

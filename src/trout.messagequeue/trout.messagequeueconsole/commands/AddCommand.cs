@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net.Mail;
-using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.queue;
+using trout.messagequeue.queue;
 
-namespace trout.emailserviceconsole.commands
+namespace trout.messagequeueconsole.commands
 {
     class AddCommand : Command
     {
@@ -18,7 +17,7 @@ namespace trout.emailserviceconsole.commands
         {
             var random = new Random();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var mailMessage = new MailMessage();
                 mailMessage.To.Add("user@example.com");

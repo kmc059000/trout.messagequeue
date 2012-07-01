@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using Moq;
+﻿using System.Net.Mail;
 using NUnit.Framework;
-using trout.emailservice.model;
-using trout.emailservice.queue.filters;
-using trout.emailservice.queue.overrides;
+using trout.messagequeue.queue.overrides;
 
-namespace trout.tests.messagequeue.filters
+namespace trout.tests.messagequeue.overrides
 {
     [TestFixture]
     public class OverrideTests

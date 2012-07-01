@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace trout.emailservice.queue.overrides
+namespace trout.messagequeue.queue.overrides
 {
     public class OverrideList : List<MailMessageOverride>
     {

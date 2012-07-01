@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NDesk.Options;
-using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.queue;
-using trout.emailservice.queue.filters;
-using trout.emailservice.queue.overrides;
+using trout.messagequeue.queue;
+using trout.messagequeue.queue.filters;
+using trout.messagequeue.queue.overrides;
+using trout.messagequeueconsole.arguments;
 
-namespace trout.emailserviceconsole.commands
+namespace trout.messagequeueconsole.commands
 {
     class ListCommand : Command
     {

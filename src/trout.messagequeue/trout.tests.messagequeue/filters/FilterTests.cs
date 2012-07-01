@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using trout.emailservice.model;
-using trout.emailservice.queue.filters;
+using trout.messagequeue.model;
+using trout.messagequeue.queue.filters;
 
 namespace trout.tests.messagequeue.filters
 {

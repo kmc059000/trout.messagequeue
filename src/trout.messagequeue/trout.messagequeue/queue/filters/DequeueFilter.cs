@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using trout.emailservice.model;
+﻿using System.Linq;
+using trout.messagequeue.model;
 
-namespace trout.emailservice.queue.filters
+namespace trout.messagequeue.queue.filters
 {
     public abstract class DequeueFilter
     {

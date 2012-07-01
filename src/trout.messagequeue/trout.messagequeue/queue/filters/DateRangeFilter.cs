@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using trout.emailservice.model;
+using trout.messagequeue.model;
 
-namespace trout.emailservice.queue.filters
+namespace trout.messagequeue.queue.filters
 {
     public class DateRangeFilter : DequeueFilter
     {

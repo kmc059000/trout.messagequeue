@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StructureMap;
+﻿using StructureMap;
 
-namespace trout.emailservice.infrastrucure.dependencies
+namespace trout.messagequeue.infrastrucure.dependencies
 {
     public class StructureMapDependencyResolver : IDependencyResolver
     {

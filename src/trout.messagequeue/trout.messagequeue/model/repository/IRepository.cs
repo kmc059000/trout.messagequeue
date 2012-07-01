@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace trout.emailservice.model.repository
+namespace trout.messagequeue.model.repository
 {
     public interface IRepository<T> where T: class
     {

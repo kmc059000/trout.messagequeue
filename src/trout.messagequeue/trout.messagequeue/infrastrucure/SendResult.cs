@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace trout.emailservice.infrastrucure
+namespace trout.messagequeue.infrastrucure
 {
     public class SendResult
     {

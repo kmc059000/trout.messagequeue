@@ -1,6 +1,6 @@
-﻿using trout.emailservice.model.repository;
+﻿using trout.messagequeue.model.repository;
 
-namespace trout.emailservice.model
+namespace trout.messagequeue.model
 {
     public interface IEmailQueueDbContext
     {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
+﻿using System.Net.Mail;
 
-namespace trout.emailservice.queue.overrides
+namespace trout.messagequeue.queue.overrides
 {
     public abstract class MailMessageOverride
     {

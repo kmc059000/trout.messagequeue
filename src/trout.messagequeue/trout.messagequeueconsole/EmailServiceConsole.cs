@@ -1,6 +1,6 @@
-﻿using trout.emailserviceconsole.commands;
+﻿using trout.messagequeueconsole.commands;
 
-namespace trout.emailserviceconsole
+namespace trout.messagequeueconsole
 {
     class EmailServiceConsole
     {

@@ -1,4 +1,4 @@
-﻿namespace trout.emailservice.infrastrucure.dependencies
+﻿namespace trout.messagequeue.infrastrucure.dependencies
 {
     public interface IDependencyResolver
     {

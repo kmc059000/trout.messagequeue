@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace trout.emailservice.config
+namespace trout.messagequeue.config
 {
     public class MailMessageSenderConfig : IMailMessageSenderConfig
     {

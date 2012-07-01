@@ -1,12 +1,12 @@
 ﻿using StructureMap;
-using trout.emailservice.config;
-using trout.emailservice.infrastrucure;
-using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.model;
-using trout.emailservice.queue;
-using trout.emailserviceconsole.commands;
+using trout.messagequeue.config;
+using trout.messagequeue.infrastrucure;
+using trout.messagequeue.infrastrucure.dependencies;
+using trout.messagequeue.model;
+using trout.messagequeue.queue;
+using trout.messagequeueconsole.commands;
 
-namespace trout.emailserviceconsole
+namespace trout.messagequeueconsole
 {
     public static class Bootstrapper
     {

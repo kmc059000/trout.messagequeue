@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using trout.emailservice.config;
-using trout.emailservice.infrastrucure;
-using trout.emailservice.model;
-using trout.emailservice.queue.filters;
-using trout.emailservice.queue.overrides;
+using trout.messagequeue.config;
+using trout.messagequeue.infrastrucure;
+using trout.messagequeue.model;
+using trout.messagequeue.queue.filters;
+using trout.messagequeue.queue.overrides;
 
-namespace trout.emailservice.queue
+namespace trout.messagequeue.queue
 {
     public class MailMessageDequeuer
     {
@@ -42,7 +42,7 @@ namespace trout.emailservice.queue
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
             List<DequeueResultItem> results = new List<DequeueResultItem>();
-
+            var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
             var messages = filters.Filter(Context);
 
             foreach (var message in messages.ToList())
@@ -55,6 +55,7 @@ namespace trout.emailservice.queue
                 mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
 
+                mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
                 mailMessage = overrides.ApplyOverrides(mailMessage);
 
                 var result = SmtpClient.Send(mailMessage);
@@ -97,6 +98,7 @@ namespace trout.emailservice.queue
                 mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
 
+                mailMessage = StaticOverrideList.GetStaticOverrideList().ApplyOverrides(mailMessage);
                 mailMessage = overrides.ApplyOverrides(mailMessage);
 
                 results.Add(new DequeueListItem(message, mailMessage));

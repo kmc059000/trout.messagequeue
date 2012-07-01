@@ -1,6 +1,6 @@
-﻿using trout.emailservice.model;
+﻿using trout.messagequeue.model;
 
-namespace trout.emailservice.queue
+namespace trout.messagequeue.queue
 {
     public class DequeueResultItem
     {
