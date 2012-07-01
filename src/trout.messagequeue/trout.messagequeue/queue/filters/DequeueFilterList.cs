@@ -44,7 +44,7 @@ namespace trout.emailservice.queue.filters
 
             int length = Filters.Count;
 
-            var query = context.FetchEmailQueueItems().AsQueryable();
+            var query = context.EmailQueueItemRepo.Fetch();
 
             while (length > 0)
             {

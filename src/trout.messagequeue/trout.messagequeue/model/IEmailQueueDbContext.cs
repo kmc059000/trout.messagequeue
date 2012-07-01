@@ -1,13 +1,10 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using trout.emailservice.model.repository;
 
 namespace trout.emailservice.model
 {
     public interface IEmailQueueDbContext
     {
-        IQueryable<EmailQueueItem> FetchEmailQueueItems();
-
-        void Add(EmailQueueItem item);
+        IRepository<EmailQueueItem> EmailQueueItemRepo { get; }
 
         int SaveChanges();
     }

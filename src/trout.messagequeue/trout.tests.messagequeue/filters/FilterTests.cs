@@ -226,7 +226,7 @@ namespace trout.tests.messagequeue.filters
             });
 
 
-            contextMock.Setup(context => context.FetchEmailQueueItems()).Returns(lst.AsQueryable());
+            contextMock.Setup(context => context.EmailQueueItemRepo.Fetch()).Returns(lst.AsQueryable());
 
             Context = contextMock.Object;
         }

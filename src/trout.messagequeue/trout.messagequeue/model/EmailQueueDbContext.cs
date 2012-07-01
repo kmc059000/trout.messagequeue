@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using trout.emailservice.model.repository;
 
 namespace trout.emailservice.model
 {
@@ -26,15 +27,11 @@ namespace trout.emailservice.model
             modelBuilder.Entity<EmailQueueItem>().HasKey(i => i.ID);
         }
 
+        private IRepository<EmailQueueItem> emailRepository;
 
-        public IQueryable<EmailQueueItem> FetchEmailQueueItems()
+        public IRepository<EmailQueueItem> EmailQueueItemRepo
         {
-            return this.EmailQueueItems;
-        }
-
-        public void Add(EmailQueueItem item)
-        {
-            this.EmailQueueItems.Add(item);
+            get { return emailRepository ?? (emailRepository = new DbSetRepository<EmailQueueItem>(this.EmailQueueItems)); }
         }
     }
 }

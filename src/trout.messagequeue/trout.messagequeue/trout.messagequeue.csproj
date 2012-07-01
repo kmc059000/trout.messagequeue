@@ -54,7 +54,9 @@
     <Compile Include="infrastrucure\dependencies\IDependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\StructureMapDependencyResolver.cs" />
     <Compile Include="infrastrucure\SendResult.cs" />
+    <Compile Include="model\repository\DbSetRepository.cs" />
     <Compile Include="model\IEmailQueueDbContext.cs" />
+    <Compile Include="model\repository\IRepository.cs" />
     <Compile Include="queue\DequeueListItem.cs" />
     <Compile Include="queue\filters\BodyContainsFilter.cs" />
     <Compile Include="queue\filters\BodyExactFilter.cs" />

@@ -16,7 +16,7 @@ namespace trout.emailservice.queue
 
         public void EnqueueMessage(MailMessage message)
         {
-            Context.Add(new EmailQueueItem()
+            Context.EmailQueueItemRepo.Add(new EmailQueueItem()
                             {
                                 To = message.To.ToString(),
                                 Cc = message.CC.ToString(),
@@ -37,18 +37,18 @@ namespace trout.emailservice.queue
         {
             foreach (var message in messages)
             {
-                Context.Add(new EmailQueueItem()
-                {
-                    To = message.To.ToString(),
-                    Cc = message.CC.ToString(),
-                    Bcc = message.Bcc.ToString(),
-                    Subject = message.Subject,
-                    Body = message.Body,
-                    IsSent = false,
-                    NumberTries = 0,
-                    LastTryDate = null,
-                    SendDate = null
-                });
+                Context.EmailQueueItemRepo.Add(new EmailQueueItem()
+                                                   {
+                                                       To = message.To.ToString(),
+                                                       Cc = message.CC.ToString(),
+                                                       Bcc = message.Bcc.ToString(),
+                                                       Subject = message.Subject,
+                                                       Body = message.Body,
+                                                       IsSent = false,
+                                                       NumberTries = 0,
+                                                       LastTryDate = null,
+                                                       SendDate = null
+                                                   });
             }
 
             Context.SaveChanges();
