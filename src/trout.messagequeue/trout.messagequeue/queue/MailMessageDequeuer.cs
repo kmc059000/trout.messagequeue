@@ -38,8 +38,7 @@ namespace trout.messagequeue.queue
             return this.SendQueuedMessages(new DequeueFilterList(), overrideList);
         }
 
-
-        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides)
+        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides, bool audit = true)
         {
             List<DequeueResultItem> results = new List<DequeueResultItem>();
             var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
@@ -61,19 +60,22 @@ namespace trout.messagequeue.queue
                 var result = SmtpClient.Send(mailMessage);
                 results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message));
 
-                if (result.IsSuccess)
+                if (audit)
                 {
-                    message.IsSent = true;
-                    message.SendDate = DateTime.Now;
-                }
-                else
-                {
-                    message.IsSent = false;
-                    message.SendDate = null;
-                }
+                    if (result.IsSuccess)
+                    {
+                        message.IsSent = true;
+                        message.SendDate = DateTime.Now;
+                    }
+                    else
+                    {
+                        message.IsSent = false;
+                        message.SendDate = null;
+                    }
 
-                message.NumberTries++;
-                message.LastTryDate = DateTime.Now;
+                    message.NumberTries++;
+                    message.LastTryDate = DateTime.Now;
+                }
             }
 
             Context.SaveChanges();

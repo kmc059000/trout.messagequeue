@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Net.Mail;
 using trout.messagequeue.queue;
+using trout.messagequeue.queue.filters;
+using trout.messagequeueconsole.arguments;
 
 namespace trout.messagequeueconsole.commands
 {
     class AddCommand : Command
     {
         private readonly MailMessageQueue MailQueue;
+        private int count = 5;
 
         public AddCommand(MailMessageQueue mailQueue)
         {
@@ -15,25 +18,43 @@ namespace trout.messagequeueconsole.commands
 
         public override void Do(string[] args)
         {
-            var random = new Random();
-
-            for (int i = 0; i < 50; i++)
+            if (ParseArguments(args))
             {
-                var mailMessage = new MailMessage();
-                mailMessage.To.Add("user@example.com");
-                mailMessage.CC.Add("usercc@example.com");
-                mailMessage.Bcc.Add("userbcc@example.com");
-                mailMessage.Subject = "Test Email - " + random.Next(1000000);
+                var random = new Random();
 
-                mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
+                for (int i = 0; i < count; i++)
+                {
+                    var mailMessage = new MailMessage();
+                    mailMessage.To.Add("user@example.com");
+                    mailMessage.CC.Add("usercc@example.com");
+                    mailMessage.Bcc.Add("userbcc@example.com");
+                    mailMessage.Subject = "Test Email - " + random.Next(1000000);
 
-                MailQueue.EnqueueMessage(mailMessage);
+                    mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
+
+                    MailQueue.EnqueueMessage(mailMessage);
+                }
             }
         }
 
-        protected override void ParseArguments(string[] args)
+        protected override bool ParseArguments(string[] args)
         {
-            throw new NotImplementedException();
+            OptionSet optionSet = new OptionSet()
+                //filters
+                .Add("c=|count=", (int v) => count = v)
+                ;
+
+            try
+            {
+                optionSet.Parse(args);
+            }
+            catch (OptionException)
+            {
+                Console.WriteLine("Error");
+                return false;
+            }
+
+            return true;
         }
     }
 }

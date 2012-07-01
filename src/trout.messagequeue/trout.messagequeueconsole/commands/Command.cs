@@ -7,6 +7,6 @@ namespace trout.messagequeueconsole.commands
         protected OptionSet OptionSet { get; private set; }
 
         public abstract void Do(string[] args);
-        protected abstract void ParseArguments(string[] args);
+        protected abstract bool ParseArguments(string[] args);
     }
 }

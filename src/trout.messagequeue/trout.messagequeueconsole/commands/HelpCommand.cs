@@ -12,7 +12,7 @@ namespace trout.messagequeueconsole.commands
             Console.WriteLine("exit - exits");
         }
 
-        protected override void ParseArguments(string[] args)
+        protected override bool ParseArguments(string[] args)
         {
             //no arguments
             throw new NotImplementedException();

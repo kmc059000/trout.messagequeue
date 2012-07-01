@@ -25,13 +25,14 @@ namespace trout.messagequeueconsole.commands
 
         public override void Do(string[] args)
         {
-            ParseArguments(args);
+            if (ParseArguments(args))
+            {
+                var results = Dequeuer.GetQueuedMessages(filterList, overrideList).ToList();
 
-            var results = Dequeuer.GetQueuedMessages(filterList, overrideList).ToList();
+                WriteSummary(results);
 
-            WriteSummary(results);
-
-            while(true) if (!DoDialog(results)) return;
+                while (true) if (!DoDialog(results)) return;
+            }
         }
 
         private bool DoDialog(List<DequeueListItem> results)
@@ -135,7 +136,7 @@ namespace trout.messagequeueconsole.commands
             Console.WriteLine(string.Format("Result count: {0}", results.Count()));
         }
 
-        protected override void ParseArguments(string[] args)
+        protected override bool ParseArguments(string[] args)
         {
             filterList = new DequeueFilterList();
             overrideList = new OverrideList();
@@ -182,13 +183,16 @@ namespace trout.messagequeueconsole.commands
             }
             catch (OptionException)
             {
-                Console.WriteLine("Error, usage is:", optionSet);
+                Console.WriteLine("Error");
+                return false;
             }
 
             if (dateRangeApplied)
             {
                 filterList.And(new DateRangeFilter(dateFrom, dateTo));
             }
+
+            return true;
         }
     }
 }

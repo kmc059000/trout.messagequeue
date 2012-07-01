@@ -8,8 +8,9 @@ namespace trout.messagequeueconsole.commands
 {
     class SendCommand : Command
     {
-        private static DequeueFilterList filterList;
-        private static OverrideList overrideList;
+        private DequeueFilterList filterList;
+        private OverrideList overrideList;
+        private bool Audit = true;
 
         private readonly MailMessageDequeuer Dequeuer;
 
@@ -20,12 +21,13 @@ namespace trout.messagequeueconsole.commands
 
         public override void Do(string[] args)
         {
-            ParseArguments(args);
-
-            Dequeuer.SendQueuedMessages(filterList, overrideList);
+            if(ParseArguments(args))
+            {
+                Dequeuer.SendQueuedMessages(filterList, overrideList, Audit);
+            }
         }
 
-        protected override void ParseArguments(string[] args)
+        protected override bool ParseArguments(string[] args)
         {
             filterList = new DequeueFilterList();
             overrideList = new OverrideList();
@@ -64,6 +66,8 @@ namespace trout.messagequeueconsole.commands
                 .Add("bccp=|bccprepend=", v => overrideList.Add(new BccOverride().Prepend(v)))
                 .Add("subjectp=|subjectprepend=", v => overrideList.Add(new SubjectOverride().Prepend(v)))
                 .Add("bodyp=|bodyprepend=", v => overrideList.Add(new BodyOverride().Prepend(v)))
+
+                .Add("da|donotaudit", "whether to audit whether the email was sent (default=true)" , v => Audit = false)
                 ;
 
             try
@@ -72,13 +76,16 @@ namespace trout.messagequeueconsole.commands
             }
             catch (OptionException)
             {
-                Console.WriteLine("Error, usage is:");
+                Console.WriteLine("Error");
+                return false;
             }
 
             if (dateRangeApplied)
             {
                 filterList.And(new DateRangeFilter(dateFrom, dateTo));
             }
+
+            return true;
         }
     }
 }
