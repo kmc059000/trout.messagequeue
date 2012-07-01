@@ -8,6 +8,7 @@ namespace trout.emailserviceclient.commands
         {
             Console.WriteLine("add - adds 5 randomly generated email");
             Console.WriteLine("send - sends all pending emails");
+            Console.WriteLine("list - displays emails");
             Console.WriteLine("exit - exits");
         }
 

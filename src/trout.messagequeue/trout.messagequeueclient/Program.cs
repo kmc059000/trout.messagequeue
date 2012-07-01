@@ -49,6 +49,8 @@ namespace trout.emailserviceclient
                 .Add("list", v => command = DependencyResolver.Resolve<ListCommand>())
                 ;
 
+            if (args.Length > 0 && !args[0].StartsWith("-")) args[0] = "-" + args[0];
+
             try
             {
                 remainingArgs = optionSet.Parse(args);
