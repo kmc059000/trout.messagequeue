@@ -11,6 +11,11 @@ namespace trout.emailservice.infrastrucure
 
         public SendResult Send(MailMessage mailMessage)
         {
+            return Send(mailMessage, 3);
+        }
+
+        private SendResult Send(MailMessage mailMessage, int retries)
+        {
             try
             {
                 client.Send(mailMessage);
@@ -46,7 +51,7 @@ namespace trout.emailservice.infrastrucure
                     return new SendResult(false, string.Format("{0} port is invalid", client.Port));
                 }
 
-                return new SendResult(false, "Invalid Operation");
+                return new SendResult(false, "Invalid Operation: " + invalidOperationException.Message);
             }
             catch (SmtpFailedRecipientsException failedRecipientsException)
             {
@@ -60,6 +65,12 @@ namespace trout.emailservice.infrastrucure
             }
             catch (SmtpException smtpException)
             {
+                //only retry 3 times
+                if(smtpException.StatusCode == SmtpStatusCode.MailboxBusy && retries > 0)
+                {
+                    return Send(mailMessage, --retries);
+                }
+
                 return new SendResult(false, string.Format("SMTP Exception {0}", smtpException.StatusCode));
             }
 
