@@ -52,7 +52,7 @@ namespace trout.emailservice.queue
                 mailMessage.To.Add(message.To);
                 mailMessage.CC.Add(message.Cc);
                 mailMessage.Bcc.Add(message.Bcc);
-                mailMessage.Subject = message.To;
+                mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
 
                 mailMessage = overrides.ApplyOverrides(mailMessage);
@@ -94,7 +94,7 @@ namespace trout.emailservice.queue
                 mailMessage.To.Add(message.To);
                 mailMessage.CC.Add(message.Cc);
                 mailMessage.Bcc.Add(message.Bcc);
-                mailMessage.Subject = message.To;
+                mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
 
                 mailMessage = overrides.ApplyOverrides(mailMessage);

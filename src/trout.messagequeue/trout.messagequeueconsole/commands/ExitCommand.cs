@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace trout.emailserviceclient.commands
+namespace trout.emailserviceconsole.commands
 {
     class ExitCommand : Command
     {

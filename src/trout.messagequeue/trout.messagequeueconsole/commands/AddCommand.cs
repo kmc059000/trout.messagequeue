@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Net.Mail;
 using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.model;
 using trout.emailservice.queue;
 
-namespace trout.emailserviceclient.commands
+namespace trout.emailserviceconsole.commands
 {
     class AddCommand : Command
     {
+        private readonly MailMessageQueue MailQueue;
+
+        public AddCommand(MailMessageQueue mailQueue)
+        {
+            MailQueue = mailQueue;
+        }
+
         public override void Do(string[] args)
         {
-            var sender = DependencyResolver.Resolve<MailMessageQueue>();
-
             var random = new Random();
 
             for (int i = 0; i < 1000; i++)
@@ -24,7 +28,7 @@ namespace trout.emailserviceclient.commands
 
                 mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
 
-                sender.EnqueueMessage(mailMessage);
+                MailQueue.EnqueueMessage(mailMessage);
             }
         }
 

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using StructureMap;
+﻿using StructureMap;
 using trout.emailservice.config;
 using trout.emailservice.infrastrucure;
 using trout.emailservice.infrastrucure.dependencies;
 using trout.emailservice.model;
 using trout.emailservice.queue;
-using trout.emailserviceclient.commands;
+using trout.emailserviceconsole.commands;
 
-namespace trout.emailserviceclient
+namespace trout.emailserviceconsole
 {
     public static class Bootstrapper
     {

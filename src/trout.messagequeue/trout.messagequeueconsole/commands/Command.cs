@@ -1,6 +1,6 @@
 ﻿using NDesk.Options;
 
-namespace trout.emailserviceclient.commands
+namespace trout.emailserviceconsole.commands
 {
     abstract class Command
     {

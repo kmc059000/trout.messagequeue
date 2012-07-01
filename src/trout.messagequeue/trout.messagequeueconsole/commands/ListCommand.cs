@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NDesk.Options;
-using trout.emailservice.config;
-using trout.emailservice.infrastrucure;
 using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.model;
 using trout.emailservice.queue;
 using trout.emailservice.queue.filters;
 using trout.emailservice.queue.overrides;
 
-namespace trout.emailserviceclient.commands
+namespace trout.emailserviceconsole.commands
 {
     class ListCommand : Command
     {
         private static DequeueFilterList filterList;
         private static OverrideList overrideList;
 
-        int skip = 0;
+        int skip;
+
+        private readonly MailMessageDequeuer Dequeuer;
+
+        public ListCommand(MailMessageDequeuer dequeuer)
+        {
+            Dequeuer = dequeuer;
+        }
 
         public override void Do(string[] args)
         {
             ParseArguments(args);
 
-            var sender = DependencyResolver.Resolve<MailMessageDequeuer>();
-
-            var results = sender.GetQueuedMessages(filterList, overrideList).ToList();
-
-            
+            var results = Dequeuer.GetQueuedMessages(filterList, overrideList).ToList();
 
             WriteSummary(results);
 
@@ -83,7 +83,6 @@ namespace trout.emailserviceclient.commands
                         break;
                     case 5:
                         return false;
-                        break;
                     default:
                         commandSuccess = false;
                         break;

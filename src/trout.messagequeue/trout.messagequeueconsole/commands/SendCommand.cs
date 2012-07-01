@@ -1,27 +1,29 @@
 ﻿using System;
 using NDesk.Options;
-using trout.emailservice.config;
-using trout.emailservice.infrastrucure;
 using trout.emailservice.infrastrucure.dependencies;
-using trout.emailservice.model;
 using trout.emailservice.queue;
 using trout.emailservice.queue.filters;
 using trout.emailservice.queue.overrides;
 
-namespace trout.emailserviceclient.commands
+namespace trout.emailserviceconsole.commands
 {
     class SendCommand : Command
     {
         private static DequeueFilterList filterList;
         private static OverrideList overrideList;
 
+        private readonly MailMessageDequeuer Dequeuer;
+
+        public SendCommand(MailMessageDequeuer dequeuer)
+        {
+            Dequeuer = dequeuer;
+        }
+
         public override void Do(string[] args)
         {
             ParseArguments(args);
 
-            var sender = DependencyResolver.Resolve<MailMessageDequeuer>();
-
-            sender.SendQueuedMessages(filterList, overrideList);
+            Dequeuer.SendQueuedMessages(filterList, overrideList);
         }
 
         protected override void ParseArguments(string[] args)
@@ -71,7 +73,7 @@ namespace trout.emailserviceclient.commands
             }
             catch (OptionException)
             {
-                Console.WriteLine("Error, usage is:", optionSet);
+                Console.WriteLine("Error, usage is:");
             }
 
             if (dateRangeApplied)
