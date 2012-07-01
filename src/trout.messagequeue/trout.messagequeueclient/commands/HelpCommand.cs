@@ -6,7 +6,7 @@ namespace trout.emailserviceclient.commands
     {
         public override void Do(string[] args)
         {
-            Console.WriteLine("add - adds 5 randomly generated email");
+            //Console.WriteLine("add - adds 1000 randomly generated email");
             Console.WriteLine("send - sends all pending emails");
             Console.WriteLine("list - displays emails");
             Console.WriteLine("exit - exits");
