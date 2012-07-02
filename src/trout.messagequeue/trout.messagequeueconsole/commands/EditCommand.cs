@@ -48,7 +48,6 @@ namespace trout.messagequeueconsole.commands
         {
             WriteFile();
 
-            //wait until they finish?
             bool save = false;
 
             while(!save)
@@ -106,162 +105,19 @@ namespace trout.messagequeueconsole.commands
 
         private void ReadFile()
         {
-            bool toProcessed = false,
-                 startTo = false,
-                 ccProcessed = false,
-                 startCc = false,
-                 bccProcessed = false,
-                 startBcc = false,
-                 subjectProcessed = false,
-                 startSubject = false,
-                 startBody = false;
+            var contents = File.ReadAllText(Filename);
 
+            int to = contents.IndexOf("#To\r\n");
+            int cc = contents.IndexOf("#Cc\r\n");
+            int bcc = contents.IndexOf("#Bcc\r\n");
+            int subject = contents.IndexOf("#Subject\r\n");
+            int body = contents.IndexOf("#Body\r\n");
 
-
-            var contents = File.ReadAllLines(Filename);
-            var joinedString = "";
-
-            for (int i = 0; i < contents.Length; i++)
-            {
-                var line = contents[i];
-
-                if (!toProcessed)
-                {
-                    if (!startTo)
-                    {
-                        if (line.StartsWith("#To"))
-                        {
-                            startTo = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (line.StartsWith("#Cc"))
-                        {
-                            Email.To = joinedString;
-                            joinedString = "";
-                            toProcessed = true;
-                            i--;
-                        }
-                        else
-                        {
-                            joinedString += line;
-                        }
-                    }
-                }
-                else if (!ccProcessed)
-                {
-
-                    if (!startCc)
-                    {
-                        if (line.StartsWith("#Cc"))
-                        {
-                            startCc = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (line.StartsWith("#Bcc"))
-                        {
-                            Email.Cc = joinedString;
-                            joinedString = "";
-                            ccProcessed = true;
-                            i--;
-                        }
-                        else
-                        {
-                            joinedString += line;
-                        }
-                    }
-                }
-                else if (!bccProcessed)
-                {
-
-                    if (!startBcc)
-                    {
-                        if (line.StartsWith("#Bcc"))
-                        {
-                            startBcc = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (line.StartsWith("#Subject"))
-                        {
-                            Email.Bcc = joinedString;
-                            joinedString = "";
-                            bccProcessed = true;
-                            i--;
-                        }
-                        else
-                        {
-                            joinedString += line;
-                        }
-                    }
-                }
-                else if (!subjectProcessed)
-                {
-                    if (!startSubject)
-                    {
-                        if (line.StartsWith("#Body"))
-                        {
-                            startSubject = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (line.StartsWith("#Body"))
-                        {
-                            Email.Subject = joinedString.Substring(0, joinedString.Length - 1);
-                            joinedString = "";
-                            subjectProcessed = true;
-                            i--;
-                        }
-                        else
-                        {
-                            joinedString += line;
-                            joinedString += "\n";
-                        }
-                    }
-                }
-                else
-                {
-                    if (!startBody)
-                    {
-                        if (line.StartsWith("#Body"))
-                        {
-                            startBody = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        joinedString += line;
-                        joinedString += "\n";
-                    }
-                }
-            }
-
-            Email.Body = joinedString.Substring(0, joinedString.Length-1);
+            Email.To = contents.Substring(to + 5, cc - to - 7);
+            Email.Cc = contents.Substring(cc + 5, bcc - cc - 7);
+            Email.Bcc = contents.Substring(bcc + 6, subject - bcc - 8);
+            Email.Subject = contents.Substring(subject + 10, body - subject - 12);
+            Email.Body = contents.Substring(body + 7, contents.Length - body - 9);
 
             DeleteFile();
 
