@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using trout.messagequeue.attachments;
 using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue
@@ -8,6 +9,7 @@ namespace trout.messagequeue.queue
     public class MailMessageQueue
     {
         private readonly IEmailQueueDbContext Context;
+        private readonly IAttachmentFileSystem AttachmentFileSystem;
 
         public MailMessageQueue(IEmailQueueDbContext context)
         {

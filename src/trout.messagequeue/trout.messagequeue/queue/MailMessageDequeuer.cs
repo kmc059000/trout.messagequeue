@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using trout.messagequeue.attachments;
 using trout.messagequeue.config;
 using trout.messagequeue.infrastrucure;
 using trout.messagequeue.model;
@@ -15,10 +16,12 @@ namespace trout.messagequeue.queue
         private readonly IMailMessageSenderConfig Config;
         private readonly ISmtpClient SmtpClient;
         private readonly IEmailQueueDbContext Context;
+        private readonly IAttachmentFileSystem AttachmentFileSystem;
 
-        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context)
+        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem)
         {
             Config = config;
+            AttachmentFileSystem = attachmentFileSystem;
             Context = context;
             SmtpClient = smtpClient;
         }

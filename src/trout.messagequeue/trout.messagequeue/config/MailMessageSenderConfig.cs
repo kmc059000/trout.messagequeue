@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 
 namespace trout.messagequeue.config
 {
@@ -6,10 +7,12 @@ namespace trout.messagequeue.config
     {
         private readonly int maxTries;
         private readonly MailAddress fromAddress;
+        private readonly String attachmentPath;
 
-        public MailMessageSenderConfig(int maxTries = 5, string fromAddress = "from@example.com")
+        public MailMessageSenderConfig(int maxTries = 5, string fromAddress = "from@example.com", string attachmentPath = "C:\\ProgramData\\trout\\attachments")
         {
             this.maxTries = maxTries;
+            this.attachmentPath = attachmentPath;
             this.fromAddress = new MailAddress(fromAddress);
         }
 
@@ -21,6 +24,11 @@ namespace trout.messagequeue.config
         public MailAddress FromAddress
         {
             get { return fromAddress; }
+        }
+
+        public string AttachmentPath
+        {
+            get { return attachmentPath; }
         }
     }
 }
