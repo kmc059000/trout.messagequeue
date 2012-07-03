@@ -6,7 +6,7 @@ namespace trout.messagequeue.config
 {
     public class MailMessageSenderConfig : ConfigurationSection, IMailMessageSenderConfig
     {
-        public static MailMessageSenderConfig GetMailMessageSenderConfig(string sectionName = "troutConfig")
+        public static MailMessageSenderConfig GetMailMessageSenderConfig(string sectionName = "trout")
         {
             MailMessageSenderConfig section = (MailMessageSenderConfig)ConfigurationManager.GetSection(sectionName);
 
