@@ -17,7 +17,7 @@ namespace trout.messagequeueconsole
                                         {
                                             c.For<ISmtpClient>().Use<DotNetBuiltInSmtpClient>();
                                             c.For<IEmailQueueDbContext>().Singleton().Use(() => new EmailQueueDbContext());
-                                            c.For<IMailMessageSenderConfig>().Use(new MailMessageSenderConfig());
+                                            c.For<IMailMessageSenderConfig>().Use(MailMessageSenderConfig.GetMailMessageSenderConfig());
                                             c.For<IAttachmentFileSystem>().Use<AttachmentFileSystem>();
                                             c.ForConcreteType<MailMessageQueue>();
                                             c.ForConcreteType<MailMessageDequeuer>();

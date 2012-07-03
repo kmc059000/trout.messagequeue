@@ -40,7 +40,6 @@ namespace trout.messagequeue.infrastrucure
                     return new SendResult(false, "No recipients");
                 }
 
-                
                 if (client.DeliveryMethod == SmtpDeliveryMethod.Network && string.IsNullOrEmpty(client.Host))
                 {
                     return new SendResult(false, "Host is not set");

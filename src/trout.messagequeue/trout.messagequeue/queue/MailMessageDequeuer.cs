@@ -61,6 +61,11 @@ namespace trout.messagequeue.queue
                 mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
                 mailMessage = overrides.ApplyOverrides(mailMessage);
 
+                foreach (var attachment in AttachmentFileSystem.GetAttachments(message))
+                {
+                    mailMessage.Attachments.Add(attachment);
+                } 
+
                 var result = SmtpClient.Send(mailMessage);
                 results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message));
 

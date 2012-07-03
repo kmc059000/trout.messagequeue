@@ -1,34 +1,53 @@
 ﻿using System;
+using System.Configuration;
 using System.Net.Mail;
 
 namespace trout.messagequeue.config
 {
-    public class MailMessageSenderConfig : IMailMessageSenderConfig
+    public class MailMessageSenderConfig : ConfigurationSection, IMailMessageSenderConfig
     {
-        private readonly int maxTries;
-        private readonly MailAddress fromAddress;
-        private readonly String attachmentPath;
-
-        public MailMessageSenderConfig(int maxTries = 5, string fromAddress = "from@example.com", string attachmentPath = "C:\\ProgramData\\trout\\attachments")
+        public static MailMessageSenderConfig GetMailMessageSenderConfig(string sectionName = "troutConfig")
         {
-            this.maxTries = maxTries;
-            this.attachmentPath = attachmentPath;
-            this.fromAddress = new MailAddress(fromAddress);
+            MailMessageSenderConfig section = (MailMessageSenderConfig)ConfigurationManager.GetSection(sectionName);
+
+            return section ?? new MailMessageSenderConfig();
         }
 
+        private MailMessageSenderConfig()
+        {
+        }
+
+        [ConfigurationProperty("maxTries", DefaultValue = 5, IsKey = false, IsRequired = false)]
         public int MaxTries
         {
-            get { return maxTries; }
+            get { return (int)base["maxTries"]; }
+            set { base["maxTries"] = value; }
+        }
+
+        [ConfigurationProperty("fromAddress", DefaultValue = "trout@example.com", IsKey = false, IsRequired = false)]
+        protected string fromAddress
+        {
+            get { return (string)base["fromAddress"]; }
+            set { base["fromAddress"] = value; }
+        }
+
+        [ConfigurationProperty("fromName", DefaultValue = "Trout", IsKey = false, IsRequired = false)]
+        protected string fromName
+        {
+            get { return (string)base["fromName"]; }
+            set { base["fromName"] = value; }
+        }
+
+        [ConfigurationProperty("attachmentPath", DefaultValue = "C:\\ProgramData\\trout\\attachments", IsKey = false, IsRequired = false)]
+        public string AttachmentPath
+        {
+            get { return (string)base["attachmentPath"]; }
+            set { base["attachmentPath"] = value; }
         }
 
         public MailAddress FromAddress
         {
-            get { return fromAddress; }
-        }
-
-        public string AttachmentPath
-        {
-            get { return attachmentPath; }
+            get { return new MailAddress(fromAddress, fromName); }
         }
     }
 }
