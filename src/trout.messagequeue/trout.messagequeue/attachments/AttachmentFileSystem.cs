@@ -24,6 +24,8 @@ namespace trout.messagequeue.attachments
             {
                 var attachment = mailMessage.Attachments[i];
 
+                Directory.CreateDirectory(GetAttachmentDirectory(item, i));
+
                 using(FileStream file = new FileStream(GetAttachmentFileName(item, i, attachment), FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
                     byte[] buffer = new byte[attachment.ContentStream.Length];
@@ -63,7 +65,7 @@ namespace trout.messagequeue.attachments
         {
             return string.Format("{0}\\{1}t\\{2}t\\{3}\\",
                                  Config.AttachmentPath,
-                                 (item.ID/10000), //123,456,789 -> 123400
+                                 (item.ID/100000).ToString("000\0\0"), //123,456,789 -> 123400
                                  (item.ID/1000)%100, //123,456,789 -> 56
                                  item.ID);
         }

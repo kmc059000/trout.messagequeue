@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.filters;
@@ -10,6 +12,7 @@ namespace trout.messagequeueconsole.commands
     {
         private readonly MailMessageQueue MailQueue;
         private int count = 5;
+        private string[] attachments = new string[0];
 
         public AddCommand(MailMessageQueue mailQueue)
         {
@@ -22,6 +25,8 @@ namespace trout.messagequeueconsole.commands
             {
                 var random = new Random();
 
+                List<MailMessage> messages = new List<MailMessage>(); 
+
                 for (int i = 0; i < count; i++)
                 {
                     var mailMessage = new MailMessage();
@@ -32,8 +37,23 @@ namespace trout.messagequeueconsole.commands
 
                     mailMessage.Body = "Test Email Body - k6rLh1xgvX2J8IgsVkoJ";
 
-                    MailQueue.EnqueueMessage(mailMessage);
+                    if(attachments.Any())
+                    {
+                        AddAttachments(mailMessage);
+                    }
+
+                    messages.Add(mailMessage);
                 }
+
+                MailQueue.EnqueueMessages(messages);
+            }
+        }
+
+        private void AddAttachments(MailMessage mailMessage)
+        {
+            foreach (var attachment in attachments)
+            {
+                mailMessage.Attachments.Add(new Attachment(attachment));
             }
         }
 
@@ -42,6 +62,7 @@ namespace trout.messagequeueconsole.commands
             OptionSet optionSet = new OptionSet()
                 //filters
                 .Add("c=|count=", (int v) => count = v)
+                .Add("a=|attachments=|attach=", v => attachments = v.Split(','))
                 ;
 
             try

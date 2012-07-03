@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="attachments\AttachmentFileSystem.cs" />
+    <Compile Include="attachments\IAttachmentFileSystem.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideCollection.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationElement.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationSectionGroup.cs" />
