@@ -41,6 +41,8 @@ namespace trout.messagequeue.attachments
         {
             List<Attachment> attachments = new List<Attachment>();
 
+            if (!Directory.Exists(GetAttachmentDirectory(item))) return attachments.ToArray();
+
             var attachmentDirectories = Directory.EnumerateDirectories(GetAttachmentDirectory(item));
 
             foreach (var attachmentDirectory in attachmentDirectories)
