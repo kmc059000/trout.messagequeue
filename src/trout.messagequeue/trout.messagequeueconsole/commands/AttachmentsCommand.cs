@@ -1,37 +1,42 @@
 ﻿using System;
+using trout.messagequeue.attachments;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.filters;
 using trout.messagequeue.queue.overrides;
 using trout.messagequeueconsole.arguments;
+using System.Linq;
 
 namespace trout.messagequeueconsole.commands
 {
-    class SendCommand : Command
+    class AttachmentsCommand : Command
     {
         private DequeueFilterList filterList;
-        private OverrideList overrideList;
-        private bool Audit = true;
 
         private readonly MailMessageDequeuer Dequeuer;
+        private readonly IAttachmentFileSystem AttachmentFileSystem;
 
-        public SendCommand(MailMessageDequeuer dequeuer)
+        private bool Purge = false;
+
+        public AttachmentsCommand(MailMessageDequeuer dequeuer, IAttachmentFileSystem attachmentFileSystem)
         {
             Dequeuer = dequeuer;
+            AttachmentFileSystem = attachmentFileSystem;
         }
 
         public override void Do(string[] args)
         {
             if(ParseArguments(args))
             {
-                Dequeuer.SendQueuedMessages(filterList, overrideList, Audit);
+                if(Purge)
+                {
+                    AttachmentFileSystem.PurgeAttachments(Dequeuer.GetQueuedMessages(filterList, new OverrideList()).Select(e => e.EmailQueueItem));
+                }
             }
         }
 
         protected override bool ParseArguments(string[] args)
         {
             filterList = new DequeueFilterList();
-            overrideList = new OverrideList();
-
             bool dateRangeApplied = false;
             DateTime dateFrom = DateTime.MinValue, dateTo = DateTime.MaxValue;
             bool idRangeApplied = false;
@@ -52,26 +57,7 @@ namespace trout.messagequeueconsole.commands
                 .Add("idrf=|idfrom=", (int v) => { idRangeApplied = true; idMin = v; })
                 .Add("idrt=|idto=", (int v) => { idRangeApplied = true; idMax = v; })
 
-                //overrides
-                .Add("to=|tooverride=", v=> overrideList.Add(new ToOverride().Override(v)))
-                .Add("cc=|ccoverride=", v => overrideList.Add(new CcOverride().Override(v)))
-                .Add("bcc=|bccoverride=", v => overrideList.Add(new BccOverride().Override(v)))
-                .Add("subject=|subjectoverride=", v => overrideList.Add(new SubjectOverride().Override(v)))
-                .Add("body=|bodyoverride=", v => overrideList.Add(new BodyOverride().Override(v)))
-
-                .Add("toa=|toappend=", v => overrideList.Add(new ToOverride().Append(v)))
-                .Add("cca=|ccappend=", v => overrideList.Add(new CcOverride().Append(v)))
-                .Add("bcca=|bccappend=", v => overrideList.Add(new BccOverride().Append(v)))
-                .Add("subjecta=|subjectappend=", v => overrideList.Add(new SubjectOverride().Append(v)))
-                .Add("bodya=|bodyappend=", v => overrideList.Add(new BodyOverride().Append(v)))
-
-                .Add("top=|toprepend=", v => overrideList.Add(new ToOverride().Prepend(v)))
-                .Add("ccp=|ccprepend=", v => overrideList.Add(new CcOverride().Prepend(v)))
-                .Add("bccp=|bccprepend=", v => overrideList.Add(new BccOverride().Prepend(v)))
-                .Add("subjectp=|subjectprepend=", v => overrideList.Add(new SubjectOverride().Prepend(v)))
-                .Add("bodyp=|bodyprepend=", v => overrideList.Add(new BodyOverride().Prepend(v)))
-
-                .Add("da|donotaudit", "whether to audit whether the email was sent (default=true)" , v => Audit = false)
+                .Add("p|purge", "purges attachments from storage (default=false)" , v => Purge = true)
                 ;
 
             try

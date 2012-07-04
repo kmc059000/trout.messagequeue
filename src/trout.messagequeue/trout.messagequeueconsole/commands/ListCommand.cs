@@ -143,6 +143,8 @@ namespace trout.messagequeueconsole.commands
 
             bool dateRangeApplied = false;
             DateTime dateFrom = DateTime.MinValue, dateTo = DateTime.MaxValue;
+            bool idRangeApplied = false;
+            int idMin = 0, idMax = int.MaxValue;
 
             OptionSet optionSet = new OptionSet()
                 //filters
@@ -156,6 +158,9 @@ namespace trout.messagequeueconsole.commands
                 .Add("sent=|sentfilter=|issent=", (bool v) => filterList.And(new SentStatusDequeueFilter(v)))
                 .Add("scf=|subjectcontainsfilter=", v => filterList.And(new SubjectContainsFilter(v)))
                 .Add("sef=|subjectexactfilter=", v => filterList.And(new SubjectExactFilter(v)))
+                .Add("idrf=|idfrom=", (int v) => { idRangeApplied = true; idMin = v; })
+                .Add("idrt=|idto=", (int v) => { idRangeApplied = true; idMax = v; })
+
 
                 //overrides
                 .Add("to=|tooverride=", v=> overrideList.Add(new ToOverride().Override(v)))
@@ -190,6 +195,11 @@ namespace trout.messagequeueconsole.commands
             if (dateRangeApplied)
             {
                 filterList.And(new DateRangeFilter(dateFrom, dateTo));
+            }
+
+            if (idRangeApplied)
+            {
+                filterList.And(new IdRangeDequeueFilter(idMin, idMax));
             }
 
             return true;

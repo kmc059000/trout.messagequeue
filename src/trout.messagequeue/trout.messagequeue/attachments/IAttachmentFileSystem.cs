@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net.Mail;
 using trout.messagequeue.model;
 
@@ -7,5 +8,6 @@ namespace trout.messagequeue.attachments
     {
         void SaveAttachments(EmailQueueItem item, MailMessage mailMessage);
         Attachment[] GetAttachments(EmailQueueItem item);
+        void PurgeAttachments(IEnumerable<EmailQueueItem> items);
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="commands\AddCommand.cs" />
     <Compile Include="arguments\Options.cs" />
     <Compile Include="commands\Command.cs" />
+    <Compile Include="commands\AttachmentsCommand.cs" />
     <Compile Include="commands\EditCommand.cs" />
     <Compile Include="commands\ListCommand.cs" />
     <Compile Include="commands\ExitCommand.cs" />

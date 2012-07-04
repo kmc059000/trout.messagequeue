@@ -58,6 +58,21 @@ namespace trout.messagequeue.attachments
             return attachments.ToArray();
         }
 
+        public void PurgeAttachments(IEnumerable<EmailQueueItem> items)
+        {
+            foreach (var item in items)
+            {
+                PurgeAttachments(item);
+            }
+        }
+
+        private void PurgeAttachments(EmailQueueItem item)
+        {
+            if (!Directory.Exists(GetAttachmentDirectory(item))) return;
+
+            Directory.Delete(GetAttachmentDirectory(item), true);
+        }
+
         private string GetAttachmentDirectory(EmailQueueItem item)
         {
             return string.Format("{0}\\{1}t\\{2}t\\{3}\\",
