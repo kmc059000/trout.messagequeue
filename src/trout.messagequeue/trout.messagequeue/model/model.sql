@@ -13,6 +13,7 @@ create table EmailQueueItems
 	CreateDate datetime not null,
 	LastTryDate datetime null,
 	SendDate datetime null,
-	IsBodyHtml bit not null
+	IsBodyHtml bit not null,
+	AttachmentCount tinyint not null
 )
 

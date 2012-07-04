@@ -41,10 +41,11 @@ namespace trout.messagequeue.queue
                                              NumberTries = 0,
                                              LastTryDate = null,
                                              SendDate = null,
-                                             IsBodyHtml = true
+                                             IsBodyHtml = true,
+                                             AttachmentCount = (byte)message.Attachments.Count
                                          };
 
-                if(message.Attachments.Any())
+                if(emailQueueItem.AttachmentCount > 0)
                 {
                     createdMessages.Add(new Tuple<EmailQueueItem, MailMessage>(emailQueueItem, message));
                 }
