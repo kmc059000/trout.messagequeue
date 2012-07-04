@@ -53,6 +53,7 @@ namespace trout.messagequeue.queue
                 mailMessage.Bcc.Add(message.Bcc);
                 mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
+                mailMessage.IsBodyHtml = message.IsBodyHtml;
 
                 mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
                 mailMessage = overrides.ApplyOverrides(mailMessage);
@@ -99,6 +100,7 @@ namespace trout.messagequeue.queue
                 mailMessage.Bcc.Add(message.Bcc);
                 mailMessage.Subject = message.Subject;
                 mailMessage.Body = message.Body;
+                mailMessage.IsBodyHtml = message.IsBodyHtml;
 
                 mailMessage = StaticOverrideList.GetStaticOverrideList().ApplyOverrides(mailMessage);
                 mailMessage = overrides.ApplyOverrides(mailMessage);

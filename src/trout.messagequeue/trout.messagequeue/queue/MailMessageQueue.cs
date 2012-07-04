@@ -27,7 +27,8 @@ namespace trout.messagequeue.queue
                                 CreateDate = DateTime.Now,
                                 NumberTries = 0,
                                 LastTryDate = null,
-                                SendDate = null
+                                SendDate = null,
+                                IsBodyHtml = true
                             });
 
             Context.SaveChanges();
@@ -47,7 +48,8 @@ namespace trout.messagequeue.queue
                                                        IsSent = false,
                                                        NumberTries = 0,
                                                        LastTryDate = null,
-                                                       SendDate = null
+                                                       SendDate = null,
+                                                       IsBodyHtml = true
                                                    });
             }
 

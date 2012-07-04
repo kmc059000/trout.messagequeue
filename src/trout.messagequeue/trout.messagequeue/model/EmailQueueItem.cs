@@ -16,5 +16,6 @@ namespace trout.messagequeue.model
         public DateTime CreateDate { get; set; }
         public DateTime? LastTryDate { get; set; }
         public DateTime? SendDate { get; set; }
+        public bool IsBodyHtml { get; set; }
     }
 }

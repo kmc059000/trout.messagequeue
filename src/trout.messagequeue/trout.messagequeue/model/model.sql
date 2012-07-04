@@ -12,6 +12,7 @@ create table EmailQueueItems
 	NumberTries tinyint not null,
 	CreateDate datetime not null,
 	LastTryDate datetime null,
-	SendDate datetime null
+	SendDate datetime null,
+	IsBodyHtml bit not null
 )
 
