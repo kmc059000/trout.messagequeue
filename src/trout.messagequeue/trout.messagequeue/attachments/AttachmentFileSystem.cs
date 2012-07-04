@@ -51,12 +51,7 @@ namespace trout.messagequeue.attachments
 
                 if(files.Any())
                 {
-                    FileInfo fi = new FileInfo(files.First());
-
-                    using(FileStream fs = fi.OpenRead())
-                    {
-                        attachments.Add(new Attachment(fs, fi.Name));
-                    }
+                    attachments.Add(new Attachment(files.First()));
                 }
             }
 
