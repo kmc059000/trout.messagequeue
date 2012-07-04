@@ -47,7 +47,15 @@ namespace trout.messagequeue.config
 
         public MailAddress FromAddress
         {
-            get { return new MailAddress(fromAddress, fromName); }
+            get
+            {
+                return new MailAddress(fromAddress);
+
+                //this screws up with the Antix client. Not sure why and not sure if
+                //it will do the same with a real smtp client.
+                //so continue to just put the address and no name for the From address.
+                //return new MailAddress(fromAddress, fromName);
+            }
         }
     }
 }
