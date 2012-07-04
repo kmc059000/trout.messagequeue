@@ -51,6 +51,7 @@ namespace trout.messagequeueconsole.commands
                 .Add("sef=|subjectexactfilter=", v => filterList.And(new SubjectExactFilter(v)))
                 .Add("idrf=|idfrom=", (int v) => { idRangeApplied = true; idMin = v; })
                 .Add("idrt=|idto=", (int v) => { idRangeApplied = true; idMax = v; })
+                .Add("haf|hasattachmentsfilter", "filter on whether an email has attachments", v => filterList.And(new HasAttachmentsFilter(true)))
 
                 //overrides
                 .Add("to=|tooverride=", v=> overrideList.Add(new ToOverride().Override(v)))

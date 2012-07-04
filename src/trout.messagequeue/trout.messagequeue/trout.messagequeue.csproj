@@ -66,6 +66,7 @@
     <Compile Include="queue\DequeueListItem.cs" />
     <Compile Include="queue\filters\BodyContainsFilter.cs" />
     <Compile Include="queue\filters\BodyExactFilter.cs" />
+    <Compile Include="queue\filters\HasAttachmentsFilter.cs" />
     <Compile Include="queue\filters\IdRangeDequeueFilter.cs" />
     <Compile Include="queue\filters\DateRangeFilter.cs" />
     <Compile Include="queue\filters\DequeueFilter.cs" />
