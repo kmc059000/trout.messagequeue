@@ -62,6 +62,7 @@
     <Compile Include="infrastrucure\SendResult.cs" />
     <Compile Include="model\repository\DbSetRepository.cs" />
     <Compile Include="model\IEmailQueueDbContext.cs" />
+    <Compile Include="model\repository\InMemoryRepository.cs" />
     <Compile Include="model\repository\IRepository.cs" />
     <Compile Include="queue\DequeueListItem.cs" />
     <Compile Include="queue\filters\BodyContainsFilter.cs" />

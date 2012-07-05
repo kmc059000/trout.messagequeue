@@ -26,21 +26,6 @@ namespace trout.messagequeue.queue
             SmtpClient = smtpClient;
         }
 
-        public IEnumerable<DequeueResultItem> SendQueuedMessages()
-        {
-            return this.SendQueuedMessages(new DequeueFilterList(), new OverrideList());
-        }
-
-        public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters)
-        {
-            return this.SendQueuedMessages(filters, new OverrideList());
-        }
-
-        public IEnumerable<DequeueResultItem> SendQueuedMessages(OverrideList overrideList)
-        {
-            return this.SendQueuedMessages(new DequeueFilterList(), overrideList);
-        }
-
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides, bool audit = true)
         {
             List<DequeueResultItem> results = new List<DequeueResultItem>();
@@ -49,17 +34,7 @@ namespace trout.messagequeue.queue
 
             foreach (var message in messages.ToList())
             {
-                var mailMessage = new MailMessage();
-                mailMessage.From = Config.FromAddress;
-                mailMessage.To.Add(message.To);
-                mailMessage.CC.Add(message.Cc);
-                mailMessage.Bcc.Add(message.Bcc);
-                mailMessage.Subject = message.Subject;
-                mailMessage.Body = message.Body;
-                mailMessage.IsBodyHtml = message.IsBodyHtml;
-
-                mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
-                mailMessage = overrides.ApplyOverrides(mailMessage);
+                MailMessage mailMessage = GetMailMessage(message, staticOverrideList, overrides);
 
                 foreach (var attachment in AttachmentFileSystem.GetAttachments(message))
                 {
@@ -67,7 +42,7 @@ namespace trout.messagequeue.queue
                 } 
 
                 var result = SmtpClient.Send(mailMessage);
-                results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message));
+                results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message, mailMessage));
 
                 if (audit)
                 {
@@ -96,27 +71,34 @@ namespace trout.messagequeue.queue
         public IEnumerable<DequeueListItem> GetQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
             List<DequeueListItem> results = new List<DequeueListItem>();
+            var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
 
             var messages = filters.Filter(Context);
 
             foreach (var message in messages.ToList())
             {
-                var mailMessage = new MailMessage();
-                mailMessage.From = Config.FromAddress;
-                mailMessage.To.Add(message.To);
-                mailMessage.CC.Add(message.Cc);
-                mailMessage.Bcc.Add(message.Bcc);
-                mailMessage.Subject = message.Subject;
-                mailMessage.Body = message.Body;
-                mailMessage.IsBodyHtml = message.IsBodyHtml;
-
-                mailMessage = StaticOverrideList.GetStaticOverrideList().ApplyOverrides(mailMessage);
-                mailMessage = overrides.ApplyOverrides(mailMessage);
+                MailMessage mailMessage = GetMailMessage(message, staticOverrideList, overrides);
 
                 results.Add(new DequeueListItem(message, mailMessage));
             }
 
             return results;
+        }
+
+        private MailMessage GetMailMessage(EmailQueueItem message, OverrideList staticOverrideList, OverrideList overrides)
+        {
+            var mailMessage = new MailMessage();
+            mailMessage.From = Config.FromAddress;
+            if (!string.IsNullOrWhiteSpace(message.To)) mailMessage.To.Add(message.To);
+            if (!string.IsNullOrWhiteSpace(message.Cc)) mailMessage.CC.Add(message.Cc);
+            if (!string.IsNullOrWhiteSpace(message.Bcc)) mailMessage.Bcc.Add(message.Bcc);
+            mailMessage.Subject = message.Subject;
+            mailMessage.Body = message.Body;
+            mailMessage.IsBodyHtml = message.IsBodyHtml;
+
+            mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
+            mailMessage = overrides.ApplyOverrides(mailMessage);
+            return mailMessage;
         }
     }
 }
