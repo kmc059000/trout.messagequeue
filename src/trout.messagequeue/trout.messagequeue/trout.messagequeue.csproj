@@ -62,6 +62,7 @@
     <Compile Include="infrastrucure\dependencies\DependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\IDependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\StructureMapDependencyResolver.cs" />
+    <Compile Include="infrastrucure\logging\TroutLog.cs" />
     <Compile Include="infrastrucure\SendResult.cs" />
     <Compile Include="model\repository\DbSetRepository.cs" />
     <Compile Include="model\IEmailQueueDbContext.cs" />

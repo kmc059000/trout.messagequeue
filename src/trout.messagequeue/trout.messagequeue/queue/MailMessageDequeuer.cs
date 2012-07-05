@@ -5,6 +5,7 @@ using System.Net.Mail;
 using trout.messagequeue.attachments;
 using trout.messagequeue.config;
 using trout.messagequeue.infrastrucure;
+using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
 using trout.messagequeue.queue.filters;
 using trout.messagequeue.queue.overrides;
@@ -43,6 +44,8 @@ namespace trout.messagequeue.queue
 
                 var result = SmtpClient.Send(mailMessage);
                 results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message, mailMessage, result.Tries));
+
+                TroutLog.Log.Info(string.Format("{0} was {1}sent with message - {2} after {3} tries.", message.ID, result.IsSuccess ? "" : "not ", result.Message, result.Tries));
 
                 if (audit)
                 {
