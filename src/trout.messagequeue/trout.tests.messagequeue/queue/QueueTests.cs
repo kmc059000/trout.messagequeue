@@ -132,7 +132,7 @@ namespace trout.tests.messagequeue.queue
             Config = configMock.Object;
 
             var smtpClientMock = new Mock<ISmtpClient>();
-            smtpClientMock.Setup(m => m.Send(It.IsAny<MailMessage>())).Returns(new SendResult(true, "mock success"));
+            smtpClientMock.Setup(m => m.Send(It.IsAny<MailMessage>())).Returns(new SendResult(true, "mock success", 1));
             SmtpClient = smtpClientMock.Object;
 
         }

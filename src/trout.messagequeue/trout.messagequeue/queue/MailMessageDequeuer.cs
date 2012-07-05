@@ -42,7 +42,7 @@ namespace trout.messagequeue.queue
                 } 
 
                 var result = SmtpClient.Send(mailMessage);
-                results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message, mailMessage));
+                results.Add(new DequeueResultItem(message, result.IsSuccess, result.Message, mailMessage, result.Tries));
 
                 if (audit)
                 {

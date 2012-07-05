@@ -4,12 +4,14 @@ namespace trout.messagequeue.infrastrucure
 {
     public class SendResult
     {
-        public bool IsSuccess { get; private set; }
-        public String Message { get; private set; }
+        public readonly bool IsSuccess;
+        public readonly String Message;
+        public readonly int Tries;
 
-        public SendResult(bool isSuccess, string message)
+        public SendResult(bool isSuccess, string message, int tries)
         {
             IsSuccess = isSuccess;
+            Tries = tries;
             Message = message;
         }
     }
