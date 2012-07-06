@@ -7,5 +7,6 @@ namespace trout.messagequeue.config
         int MaxTries { get; }
         MailAddress FromAddress { get; }
         string AttachmentPath { get; }
+        string StoragePath { get; }
     }
 }

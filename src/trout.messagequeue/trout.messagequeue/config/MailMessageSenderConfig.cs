@@ -38,11 +38,17 @@ namespace trout.messagequeue.config
             set { base["fromName"] = value; }
         }
 
-        [ConfigurationProperty("attachmentPath", DefaultValue = "C:\\ProgramData\\trout\\attachments", IsKey = false, IsRequired = false)]
+        [ConfigurationProperty("storagePath", DefaultValue = "C:\\ProgramData\\trout\\", IsKey = false, IsRequired = false)]
+        public string StoragePath
+        {
+            get { return (string)base["storagePath"]; }
+            set { base["storagePath"] = value; }
+        }
+
+        
         public string AttachmentPath
         {
-            get { return (string)base["attachmentPath"]; }
-            set { base["attachmentPath"] = value; }
+            get { return StoragePath + "attachments"; }
         }
 
         public MailAddress FromAddress

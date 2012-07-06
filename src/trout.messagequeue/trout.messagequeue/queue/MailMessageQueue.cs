@@ -26,7 +26,7 @@ namespace trout.messagequeue.queue
 
         public void EnqueueMessages(IEnumerable<MailMessage> messages)
         {
-            TroutLog.Log.Info(string.Format("Beginning queuing of {0} messages at {1}", messages.Count(), DateTime.Now.ToString()));
+            TroutLog.Log.Info(string.Format("Beginning queuing of {0} messages", messages.Count()));
 
             List<Tuple<EmailQueueItem, MailMessage>> createdMessages = new List<Tuple<EmailQueueItem, MailMessage>>();
 
@@ -62,7 +62,7 @@ namespace trout.messagequeue.queue
                     AttachmentFileSystem.SaveAttachments(createdMessage.Item1, createdMessage.Item2);
                 }
 
-                TroutLog.Log.Info(string.Format("{0} was queued at {1}", createdMessage.Item1.ID, DateTime.Now.ToString()));
+                TroutLog.Log.Info(string.Format("{0} was queued", createdMessage.Item1.ID));
             }
 
         }

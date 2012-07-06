@@ -21,7 +21,7 @@ namespace trout.messagequeue.attachments
 
         public void SaveAttachments(EmailQueueItem item, MailMessage mailMessage)
         {
-            TroutLog.Log.Info(string.Format("Saving {0} attachments for email {1} at {2}", mailMessage.Attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Saving {0} attachments for email {1}", mailMessage.Attachments.Count, item.ID));
 
             for (int i = 0; i < mailMessage.Attachments.Count; i++)
             {
@@ -39,12 +39,12 @@ namespace trout.messagequeue.attachments
                 }
             }
 
-            TroutLog.Log.Info(string.Format("Saved {0} attachments for email {1} at {2}", mailMessage.Attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Saved {0} attachments for email {1}", mailMessage.Attachments.Count, item.ID));
         }
 
         public Attachment[] GetAttachments(EmailQueueItem item)
         {
-            TroutLog.Log.Info(string.Format("Retrieving attachments for email {0} at {1}", item.ID, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Retrieving attachments for email {0}", item.ID));
 
             List<Attachment> attachments = new List<Attachment>();
 
@@ -62,14 +62,14 @@ namespace trout.messagequeue.attachments
                 }
             }
 
-            TroutLog.Log.Info(string.Format("Retrieved {0} attachments for email {1} at {2}",attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Retrieved {0} attachments for email {1}",attachments.Count, item.ID));
 
             return attachments.ToArray();
         }
 
         public void PurgeAttachments(IEnumerable<EmailQueueItem> items)
         {
-            TroutLog.Log.Info(string.Format("Purging attachments for {0} attachments {1}", items.Count(), DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Purging attachments for {0} attachments", items.Count()));
 
             foreach (var item in items)
             {
@@ -81,7 +81,7 @@ namespace trout.messagequeue.attachments
         {
             if (!Directory.Exists(GetAttachmentDirectory(item))) return;
 
-            TroutLog.Log.Info(string.Format("Purging attachments for email {0} attachments {1}", item.ID, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Purging attachments for email {0} attachments", item.ID));
 
             Directory.Delete(GetAttachmentDirectory(item), true);
         }

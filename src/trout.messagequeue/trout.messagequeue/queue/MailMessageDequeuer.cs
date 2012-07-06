@@ -29,7 +29,7 @@ namespace trout.messagequeue.queue
 
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides, bool audit = true)
         {
-            TroutLog.Log.Info(string.Format("Beginning dequeuing with{0} auditing at {1}", audit ? "" : "out", DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Beginning dequeuing with{0} auditing at", audit ? "" : "out"));
 
             List<DequeueResultItem> results = new List<DequeueResultItem>();
             var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
@@ -67,7 +67,7 @@ namespace trout.messagequeue.queue
                 }
             }
 
-            TroutLog.Log.Info(string.Format("Saving of dequeue results at {0}", DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Saving of dequeue results"));
             Context.SaveChanges();
 
 
@@ -76,7 +76,7 @@ namespace trout.messagequeue.queue
 
         public IEnumerable<DequeueListItem> GetQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
-            TroutLog.Log.Info(string.Format("Retrieving messages at {0}", DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Retrieving messages"));
 
             List<DequeueListItem> results = new List<DequeueListItem>();
             var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
@@ -90,7 +90,7 @@ namespace trout.messagequeue.queue
                 results.Add(new DequeueListItem(message, mailMessage));
             }
 
-            TroutLog.Log.Info(string.Format("Retrieved {0} messages at {1}", results.Count, DateTime.Now.ToLongDateString()));
+            TroutLog.Log.Info(string.Format("Retrieved {0} messages", results.Count));
 
             return results;
         }
