@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
 using trout.messagequeueconsole.arguments;
 
@@ -55,6 +56,8 @@ namespace trout.messagequeueconsole.commands
                 Console.WriteLine("  Options:\n  save - save contents of file to database\n  cancel - cancel edit");
                 Console.Write(">>");
                 var command = Console.ReadLine().Trim();
+
+                TroutLog.Log.Info(string.Format("Executing edit command: {0}", command));
 
                 switch (command)
                 {

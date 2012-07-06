@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using trout.messagequeue.config;
+using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
 
 namespace trout.messagequeue.attachments
@@ -20,6 +21,8 @@ namespace trout.messagequeue.attachments
 
         public void SaveAttachments(EmailQueueItem item, MailMessage mailMessage)
         {
+            TroutLog.Log.Info(string.Format("Saving {0} attachments for email {1} at {2}", mailMessage.Attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
+
             for (int i = 0; i < mailMessage.Attachments.Count; i++)
             {
                 var attachment = mailMessage.Attachments[i];
@@ -35,10 +38,14 @@ namespace trout.messagequeue.attachments
                     file.Write(buffer, 0, buffer.Length);
                 }
             }
+
+            TroutLog.Log.Info(string.Format("Saved {0} attachments for email {1} at {2}", mailMessage.Attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
         }
 
         public Attachment[] GetAttachments(EmailQueueItem item)
         {
+            TroutLog.Log.Info(string.Format("Retrieving attachments for email {0} at {1}", item.ID, DateTime.Now.ToLongDateString()));
+
             List<Attachment> attachments = new List<Attachment>();
 
             if (!Directory.Exists(GetAttachmentDirectory(item))) return attachments.ToArray();
@@ -55,11 +62,15 @@ namespace trout.messagequeue.attachments
                 }
             }
 
+            TroutLog.Log.Info(string.Format("Retrieved {0} attachments for email {1} at {2}",attachments.Count, item.ID, DateTime.Now.ToLongDateString()));
+
             return attachments.ToArray();
         }
 
         public void PurgeAttachments(IEnumerable<EmailQueueItem> items)
         {
+            TroutLog.Log.Info(string.Format("Purging attachments for {0} attachments {1}", items.Count(), DateTime.Now.ToLongDateString()));
+
             foreach (var item in items)
             {
                 PurgeAttachments(item);
@@ -69,6 +80,8 @@ namespace trout.messagequeue.attachments
         private void PurgeAttachments(EmailQueueItem item)
         {
             if (!Directory.Exists(GetAttachmentDirectory(item))) return;
+
+            TroutLog.Log.Info(string.Format("Purging attachments for email {0} attachments {1}", item.ID, DateTime.Now.ToLongDateString()));
 
             Directory.Delete(GetAttachmentDirectory(item), true);
         }

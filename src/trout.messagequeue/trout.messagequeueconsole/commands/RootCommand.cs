@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using trout.messagequeue.infrastrucure.dependencies;
+using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeueconsole.arguments;
 
 namespace trout.messagequeueconsole.commands
@@ -22,6 +25,8 @@ namespace trout.messagequeueconsole.commands
 
                     if (strCommand.Length > 0)
                     {
+                        TroutLog.Log.Info(string.Format("executing: {0}", strCommand.Aggregate(new StringBuilder(), (current, next) => current.Append(" ").Append(next))));
+
                         ExecuteCommand(strCommand);
                     }
                 }

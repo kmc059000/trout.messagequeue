@@ -26,9 +26,11 @@ namespace trout.messagequeue.queue
 
         public void EnqueueMessages(IEnumerable<MailMessage> messages)
         {
+            TroutLog.Log.Info(string.Format("Beginning queuing of {0} messages at {1}", messages.Count(), DateTime.Now.ToString()));
+
             List<Tuple<EmailQueueItem, MailMessage>> createdMessages = new List<Tuple<EmailQueueItem, MailMessage>>();
 
-            foreach (var message in messages)
+            foreach (var message in messages.Where(m => m != null))
             {
                 var emailQueueItem = new EmailQueueItem()
                                          {
