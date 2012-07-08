@@ -4,7 +4,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class DateRangeFilter : DequeueFilter
+    public sealed class DateRangeFilter : DequeueFilter
     {
         private readonly DateTime FromDate, ToDate;
 

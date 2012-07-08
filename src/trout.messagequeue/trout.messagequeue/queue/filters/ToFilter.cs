@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class ToFilter : DequeueFilter
+    public sealed class ToFilter : DequeueFilter
     {
         private readonly string To;
 

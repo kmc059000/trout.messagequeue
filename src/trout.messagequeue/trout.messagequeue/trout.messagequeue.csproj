@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="attachments\AttachmentFileSystem.cs" />
     <Compile Include="attachments\IAttachmentFileSystem.cs" />
+    <Compile Include="config\staticoverrides\ConfigFileStaticOverridesProvider.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideCollection.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationElement.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationSectionGroup.cs" />
@@ -92,12 +93,12 @@
     <Compile Include="queue\filters\SubjectContainsFilter.cs" />
     <Compile Include="queue\filters\SubjectExactFilter.cs" />
     <Compile Include="queue\filters\ToFilter.cs" />
+    <Compile Include="queue\overrides\IStaticOverridesProvider.cs" />
     <Compile Include="queue\overrides\OverrideList.cs" />
     <Compile Include="queue\overrides\BccOverride.cs" />
     <Compile Include="queue\overrides\BodyOverride.cs" />
     <Compile Include="queue\overrides\CcOverride.cs" />
     <Compile Include="queue\overrides\MailMessageOverride.cs" />
-    <Compile Include="queue\overrides\StaticOverride.cs" />
     <Compile Include="queue\overrides\SubjectOverride.cs" />
     <Compile Include="queue\overrides\ToOverride.cs" />
   </ItemGroup>

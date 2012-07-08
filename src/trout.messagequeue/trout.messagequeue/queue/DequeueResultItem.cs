@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue
 {
-    public class DequeueResultItem
+    public sealed class DequeueResultItem
     {
         public readonly EmailQueueItem EmailQueueItem;
         public readonly bool IsSuccess;

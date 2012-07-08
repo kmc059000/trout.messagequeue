@@ -2,7 +2,7 @@
 
 namespace trout.messagequeue.infrastrucure.dependencies
 {
-    public class StructureMapDependencyResolver : IDependencyResolver
+    public sealed class StructureMapDependencyResolver : IDependencyResolver
     {
         private readonly IContainer CurrentContainer;
 

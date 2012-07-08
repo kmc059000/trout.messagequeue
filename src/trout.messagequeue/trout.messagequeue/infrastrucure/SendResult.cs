@@ -2,7 +2,7 @@
 
 namespace trout.messagequeue.infrastrucure
 {
-    public class SendResult
+    public sealed class SendResult
     {
         public readonly bool IsSuccess;
         public readonly String Message;

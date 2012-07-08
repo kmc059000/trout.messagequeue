@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace trout.messagequeue.model.repository
 {
-    public class InMemoryRepository<T> : IRepository<T> where T : class
+    public sealed class InMemoryRepository<T> : IRepository<T> where T : class
     {
         readonly List<T> Source = new List<T>();
 

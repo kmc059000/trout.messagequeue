@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class IdRangeDequeueFilter : DequeueFilter
+    public sealed class IdRangeDequeueFilter : DequeueFilter
     {
         private readonly int RangeMinimum = 0;
         private readonly int RangeMaximum = int.MaxValue;

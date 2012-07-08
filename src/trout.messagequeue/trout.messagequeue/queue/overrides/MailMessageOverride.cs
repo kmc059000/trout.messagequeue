@@ -58,7 +58,7 @@ namespace trout.messagequeue.queue.overrides
                     var old = addresses.ToString();
                     addresses.Clear();
                     addresses.Add(prependString);
-                    addresses.Add(old);
+                    if(!string.IsNullOrWhiteSpace(old)) addresses.Add(old);
                 }
 
                 if (!string.IsNullOrEmpty(appendString))

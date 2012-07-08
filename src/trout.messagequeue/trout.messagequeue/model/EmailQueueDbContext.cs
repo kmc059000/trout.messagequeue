@@ -3,7 +3,7 @@ using trout.messagequeue.model.repository;
 
 namespace trout.messagequeue.model
 {
-    public class EmailQueueDbContext : DbContext, IEmailQueueDbContext
+    public sealed class EmailQueueDbContext : DbContext, IEmailQueueDbContext
     {
         public DbSet<EmailQueueItem> EmailQueueItems { get; set; }
 

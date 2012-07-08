@@ -23,12 +23,13 @@ namespace trout.tests.messagequeue.queue
         private IAttachmentFileSystem AttachmentFileSystem;
         private IMailMessageSenderConfig Config;
         private ISmtpClient SmtpClient;
+        private IStaticOverridesProvider StaticOverridesProvider;
 
         [Test]
         public void EmailsAreSentWithOriginalAttachments()
         {
             MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, StaticOverridesProvider);
 
             var mm = new MailMessage();
             mm.Attachments.Add(new Attachment(Path.Combine(Environment.CurrentDirectory, @"testingfiles\sample.pdf")));
@@ -66,7 +67,7 @@ namespace trout.tests.messagequeue.queue
         public void MultipleAttachmentsAreSent()
         {
             MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, StaticOverridesProvider);
 
             var mm = new MailMessage();
             mm.Attachments.Add(new Attachment(Path.Combine(Environment.CurrentDirectory, @"testingfiles\sample.pdf")));
@@ -114,6 +115,42 @@ namespace trout.tests.messagequeue.queue
             Assert.AreEqual(originalFile, newFile, "provided and sent attachments are not identical");
         }
 
+        [Test]
+        public void StaticOverridesAreApplied()
+        {
+            var testingStaticOverrides = new OverrideList();
+            testingStaticOverrides.Add(new ToOverride().Prepend("user@troutproject.info"));
+            testingStaticOverrides.Add(new CcOverride().Prepend("usercc@troutproject.info"));
+            testingStaticOverrides.Add(new BccOverride().Prepend("userbcc@troutproject.info"));
+            testingStaticOverrides.Add(new SubjectOverride().Prepend("SubjectSpecialString"));
+            testingStaticOverrides.Add(new BodyOverride().Prepend("BodySpecialString"));
+
+            var staticOverridesProviderMock = new Mock<IStaticOverridesProvider>();
+            staticOverridesProviderMock.Setup(m => m.StaticOverrides).Returns(testingStaticOverrides);
+
+            MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, staticOverridesProviderMock.Object);
+
+            var mm = new MailMessage();
+
+            queue.EnqueueMessage(mm);
+
+            var emailQueueItem = Context.EmailQueueItemRepo.Fetch().First();
+
+            var fl = new DequeueFilterList();
+            fl.And(new IdDequeueFilter(emailQueueItem.ID));
+
+            var result = dequeuer.SendQueuedMessages(fl, new OverrideList());
+
+            var sent = result.First().SentMailMessage;
+
+            Assert.AreEqual("user@troutproject.info", sent.To.ToString(), "Static To Override was not applied");
+            Assert.AreEqual("usercc@troutproject.info", sent.CC.ToString(), "Static Cc Override was not applied");
+            Assert.AreEqual("userbcc@troutproject.info", sent.Bcc.ToString(), "Static Bcc Override was not applied");
+            Assert.AreEqual("SubjectSpecialString", sent.Subject, "Static Subject Override was not applied");
+            Assert.AreEqual("BodySpecialString", sent.Body, "Static Body Override was not applied");
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -134,6 +171,10 @@ namespace trout.tests.messagequeue.queue
             var smtpClientMock = new Mock<ISmtpClient>();
             smtpClientMock.Setup(m => m.Send(It.IsAny<MailMessage>())).Returns(new SendResult(true, "mock success", 1));
             SmtpClient = smtpClientMock.Object;
+
+            var staticOverridesProviderMock = new Mock<IStaticOverridesProvider>();
+            staticOverridesProviderMock.Setup(m => m.StaticOverrides).Returns(new OverrideList());
+            StaticOverridesProvider = staticOverridesProviderMock.Object;
 
         }
 

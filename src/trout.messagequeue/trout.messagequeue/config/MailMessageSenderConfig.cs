@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace trout.messagequeue.config
 {
-    public class MailMessageSenderConfig : ConfigurationSection, IMailMessageSenderConfig
+    public sealed class MailMessageSenderConfig : ConfigurationSection, IMailMessageSenderConfig
     {
         public static MailMessageSenderConfig GetMailMessageSenderConfig(string sectionName = "trout")
         {

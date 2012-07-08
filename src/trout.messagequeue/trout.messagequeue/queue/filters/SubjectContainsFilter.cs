@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class SubjectContainsFilter : DequeueFilter
+    public sealed class SubjectContainsFilter : DequeueFilter
     {
         private readonly string Subject;
 

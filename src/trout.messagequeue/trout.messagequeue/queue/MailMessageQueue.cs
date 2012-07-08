@@ -8,7 +8,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue
 {
-    public class MailMessageQueue
+    public sealed class MailMessageQueue
     {
         private readonly IEmailQueueDbContext Context;
         private readonly IAttachmentFileSystem AttachmentFileSystem;

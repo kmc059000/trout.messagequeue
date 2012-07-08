@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class BodyExactFilter : DequeueFilter
+    public sealed class BodyExactFilter : DequeueFilter
     {
         private readonly string Body;
 

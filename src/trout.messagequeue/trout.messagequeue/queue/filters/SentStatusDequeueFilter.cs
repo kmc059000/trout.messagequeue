@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class SentStatusDequeueFilter : DequeueFilter
+    public sealed class SentStatusDequeueFilter : DequeueFilter
     {
         private readonly bool IsSent;
 

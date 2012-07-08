@@ -2,7 +2,7 @@
 
 namespace trout.messagequeue.queue.overrides
 {
-    public class ToOverride : MailMessageOverride
+    public sealed class ToOverride : MailMessageOverride
     {
         public override MailMessage ApplyOverride(MailMessage message)
         {

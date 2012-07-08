@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace trout.messagequeue.queue.overrides
 {
-    public class OverrideList : List<MailMessageOverride>
+    public sealed class OverrideList : List<MailMessageOverride>
     {
         public MailMessage ApplyOverrides(MailMessage message)
         {

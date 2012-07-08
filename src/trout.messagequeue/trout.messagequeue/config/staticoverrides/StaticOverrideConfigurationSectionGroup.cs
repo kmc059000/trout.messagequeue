@@ -2,7 +2,7 @@
 
 namespace trout.messagequeue.config.staticoverrides
 {
-    public class StaticOverrideConfigurationSectionGroup : ConfigurationSection
+    public sealed class StaticOverrideConfigurationSectionGroup : ConfigurationSection
     {
         [ConfigurationProperty("overrides")]
         public StaticOverrideCollection StaticOverrides

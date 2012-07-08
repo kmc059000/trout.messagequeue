@@ -5,7 +5,7 @@ using System.Text;
 
 namespace trout.messagequeue.infrastrucure
 {
-    public class DotNetBuiltInSmtpClient : ISmtpClient
+    public sealed class DotNetBuiltInSmtpClient : ISmtpClient
     {
         readonly System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
         private const int RetryAttempts = 3;

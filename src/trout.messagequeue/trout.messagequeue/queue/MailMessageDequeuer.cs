@@ -12,18 +12,18 @@ using trout.messagequeue.queue.overrides;
 
 namespace trout.messagequeue.queue
 {
-    public class MailMessageDequeuer
+    public sealed class MailMessageDequeuer
     {
         private readonly IMailMessageSenderConfig Config;
         private readonly ISmtpClient SmtpClient;
         private readonly IEmailQueueDbContext Context;
         private readonly IAttachmentFileSystem AttachmentFileSystem;
-        private readonly IStaticOverridesProvider _staticOverridesesProvider;
+        private readonly IStaticOverridesProvider StaticOverridesesProvider;
 
         public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem, IStaticOverridesProvider staticOverridesesProvider)
         {
             Config = config;
-            _staticOverridesesProvider = staticOverridesesProvider;
+            StaticOverridesesProvider = staticOverridesesProvider;
             AttachmentFileSystem = attachmentFileSystem;
             Context = context;
             SmtpClient = smtpClient;
@@ -106,7 +106,7 @@ namespace trout.messagequeue.queue
             mailMessage.Body = message.Body;
             mailMessage.IsBodyHtml = message.IsBodyHtml;
 
-            mailMessage = _staticOverridesesProvider.StaticOverrides.ApplyOverrides(mailMessage);
+            mailMessage = StaticOverridesesProvider.StaticOverrides.ApplyOverrides(mailMessage);
             mailMessage = overrides.ApplyOverrides(mailMessage);
             return mailMessage;
         }

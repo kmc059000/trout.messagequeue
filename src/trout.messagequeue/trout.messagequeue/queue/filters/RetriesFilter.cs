@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class RetriesFilter : DequeueFilter
+    public sealed class RetriesFilter : DequeueFilter
     {
         private readonly byte MaximumRetries;
 

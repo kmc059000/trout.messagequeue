@@ -4,7 +4,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class DequeueFilterList
+    public sealed class DequeueFilterList
     {
         private enum FilterOperand
         {

@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class HasAttachmentsFilter : DequeueFilter
+    public sealed class HasAttachmentsFilter : DequeueFilter
     {
         private bool HasAttachments = true;
 

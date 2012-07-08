@@ -3,7 +3,7 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
-    public class IdDequeueFilter : DequeueFilter
+    public sealed class IdDequeueFilter : DequeueFilter
     {
         private readonly int[] IdFilters;
 
