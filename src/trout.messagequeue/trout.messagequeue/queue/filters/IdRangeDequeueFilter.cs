@@ -19,7 +19,7 @@ namespace trout.messagequeue.queue.filters
             RangeMaximum = maximum;
         }
 
-        public override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
+        internal override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
         {
             return source.Where(e => e.ID >= RangeMinimum && e.ID <= RangeMaximum);
         }

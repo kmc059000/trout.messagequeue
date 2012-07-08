@@ -6,6 +6,6 @@ namespace trout.messagequeue.queue.filters
 {
     public abstract class DequeueFilter
     {
-        public abstract IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source);
+        internal abstract IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source);
     }
 }

@@ -18,7 +18,6 @@ namespace trout.messagequeue.queue
             SentMailMessage = sentMailMessage;
             Message = message;
             IsSuccess = isSuccess;
-
         }
     }
 }

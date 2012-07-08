@@ -21,11 +21,15 @@ namespace trout.messagequeue.queue
 
         public void EnqueueMessage(MailMessage message)
         {
+            if (message == null) throw new ArgumentNullException("message");
+
             EnqueueMessages(new[] {message});
         }
 
         public void EnqueueMessages(IEnumerable<MailMessage> messages)
         {
+            if (messages == null) throw new ArgumentNullException("messages");
+
             TroutLog.Log.Info(string.Format("Beginning queuing of {0} messages", messages.Count()));
 
             List<Tuple<EmailQueueItem, MailMessage>> createdMessages = new List<Tuple<EmailQueueItem, MailMessage>>();

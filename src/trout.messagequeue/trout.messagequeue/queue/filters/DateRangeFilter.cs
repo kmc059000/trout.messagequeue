@@ -14,7 +14,7 @@ namespace trout.messagequeue.queue.filters
             ToDate = toDate;
         }
 
-        public override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
+        internal override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
         {
             return source.Where(e => e.CreateDate >= FromDate && e.CreateDate <= ToDate);
         }

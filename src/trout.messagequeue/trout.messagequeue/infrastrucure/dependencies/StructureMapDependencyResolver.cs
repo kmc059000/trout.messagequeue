@@ -1,4 +1,5 @@
-﻿using StructureMap;
+﻿using System;
+using StructureMap;
 
 namespace trout.messagequeue.infrastrucure.dependencies
 {
@@ -8,6 +9,8 @@ namespace trout.messagequeue.infrastrucure.dependencies
 
         public StructureMapDependencyResolver(IContainer container)
         {
+            if (container == null) throw new ArgumentNullException("container");
+
             CurrentContainer = container;
         }
 

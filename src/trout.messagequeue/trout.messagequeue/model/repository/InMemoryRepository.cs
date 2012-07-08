@@ -15,16 +15,22 @@ namespace trout.messagequeue.model.repository
 
         public void Add(T item)
         {
+            if (item == null) throw new ArgumentNullException("item");
+
             Source.Add(item);
         }
 
         public void Delete(T item)
         {
+            if (item == null) throw new ArgumentNullException("item");
+
             Source.Remove(item);
         }
 
         public T First(Func<T, bool> filter)
         {
+            if (filter == null) throw new ArgumentNullException("filter");
+
             return Source.FirstOrDefault(filter);
         }
     }

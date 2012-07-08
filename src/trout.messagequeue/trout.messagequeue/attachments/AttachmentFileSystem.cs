@@ -21,6 +21,9 @@ namespace trout.messagequeue.attachments
 
         public void SaveAttachments(EmailQueueItem item, MailMessage mailMessage)
         {
+            if(item == null) throw new ArgumentNullException("item");
+            if (mailMessage == null) throw new ArgumentNullException("mailMessage");
+
             TroutLog.Log.Info(string.Format("Saving {0} attachments for email {1}", mailMessage.Attachments.Count, item.ID));
 
             for (int i = 0; i < mailMessage.Attachments.Count; i++)
@@ -44,6 +47,8 @@ namespace trout.messagequeue.attachments
 
         public Attachment[] GetAttachments(EmailQueueItem item)
         {
+            if (item == null) throw new ArgumentNullException("item");
+
             TroutLog.Log.Info(string.Format("Retrieving attachments for email {0}", item.ID));
 
             List<Attachment> attachments = new List<Attachment>();
@@ -69,6 +74,8 @@ namespace trout.messagequeue.attachments
 
         public void PurgeAttachments(IEnumerable<EmailQueueItem> items)
         {
+            if (items == null) throw new ArgumentNullException("items");
+
             TroutLog.Log.Info(string.Format("Purging attachments for {0} attachments", items.Count()));
 
             foreach (var item in items)

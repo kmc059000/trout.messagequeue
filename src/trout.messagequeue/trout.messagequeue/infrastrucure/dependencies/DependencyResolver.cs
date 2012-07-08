@@ -11,6 +11,9 @@
 
         public static TypeToResolve Resolve<TypeToResolve>()
         {
+            if (CurrentResolver == null) 
+                throw new TroutException("Dependency Resolver was not set so nothing can be resolved");
+
             return CurrentResolver.Resolve<TypeToResolve>();
         }
     }

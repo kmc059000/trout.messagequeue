@@ -12,7 +12,7 @@ namespace trout.messagequeue.queue.filters
             HasAttachments = hasAttachmentsFilter;
         }
 
-        public override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
+        internal override IQueryable<EmailQueueItem> Filter(IQueryable<EmailQueueItem> source)
         {
             return source.Where(e => e.AttachmentCount > 0 == HasAttachments);
         }

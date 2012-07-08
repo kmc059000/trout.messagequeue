@@ -32,6 +32,9 @@ namespace trout.messagequeue.queue
 
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides, bool audit = true)
         {
+            if(filters == null) throw new ArgumentNullException("filters");
+            if(overrides == null) throw new ArgumentNullException("overrides");
+
             TroutLog.Log.Info(string.Format("Beginning dequeuing with{0} auditing at", audit ? "" : "out"));
 
             List<DequeueResultItem> results = new List<DequeueResultItem>();
@@ -78,6 +81,9 @@ namespace trout.messagequeue.queue
 
         public IEnumerable<DequeueListItem> GetQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
+            if (filters == null) throw new ArgumentNullException("filters");
+            if (overrides == null) throw new ArgumentNullException("overrides");
+
             TroutLog.Log.Info(string.Format("Retrieving messages"));
 
             List<DequeueListItem> results = new List<DequeueListItem>();
