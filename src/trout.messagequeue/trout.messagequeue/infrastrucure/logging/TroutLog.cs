@@ -18,7 +18,11 @@ namespace trout.messagequeue.infrastrucure.logging
         {
             get
             {
-                if (!isConfigured) log4net.Config.XmlConfigurator.Configure();
+                if (!isConfigured)
+                {
+                    log4net.Config.XmlConfigurator.Configure();
+                    isConfigured = true;
+                }
 
                 return log;
             }
