@@ -10,6 +10,7 @@ using trout.messagequeue.model.repository;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.filters;
 using trout.messagequeue.queue.overrides;
+using trout.messagequeue.smtp;
 using trout.tests.messagequeue.mocks;
 
 namespace trout.tests.messagequeue.overrides

@@ -25,14 +25,14 @@ namespace trout.messagequeue.config
         }
 
         [ConfigurationProperty("fromAddress", DefaultValue = "trout@example.com", IsKey = false, IsRequired = false)]
-        protected string fromAddress
+        private string fromAddress
         {
             get { return (string)base["fromAddress"]; }
             set { base["fromAddress"] = value; }
         }
 
         [ConfigurationProperty("fromName", DefaultValue = "Trout", IsKey = false, IsRequired = false)]
-        protected string fromName
+        private string fromName
         {
             get { return (string)base["fromName"]; }
             set { base["fromName"] = value; }

@@ -12,7 +12,7 @@ namespace trout.messagequeue.config.staticoverrides
         }
 
         [ConfigurationProperty("type", DefaultValue = "", IsKey = true, IsRequired = true)]
-        protected string StaticOverrideTypeString
+        private string StaticOverrideTypeString
         {
             get
             {

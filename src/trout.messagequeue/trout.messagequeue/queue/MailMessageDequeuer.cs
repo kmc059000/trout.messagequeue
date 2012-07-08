@@ -9,6 +9,7 @@ using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
 using trout.messagequeue.queue.filters;
 using trout.messagequeue.queue.overrides;
+using trout.messagequeue.smtp;
 
 namespace trout.messagequeue.queue
 {

@@ -7,6 +7,7 @@ using trout.messagequeue.infrastrucure.dependencies;
 using trout.messagequeue.model;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.overrides;
+using trout.messagequeue.smtp;
 using trout.messagequeueconsole.commands;
 
 namespace trout.messagequeueconsole

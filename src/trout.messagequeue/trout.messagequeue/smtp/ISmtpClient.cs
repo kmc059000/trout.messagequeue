@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace trout.messagequeue.infrastrucure
+namespace trout.messagequeue.smtp
 {
     public interface ISmtpClient
     {

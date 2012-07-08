@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 
-namespace trout.messagequeue.infrastrucure
+namespace trout.messagequeue.smtp
 {
     public sealed class DotNetBuiltInSmtpClient : ISmtpClient
     {
