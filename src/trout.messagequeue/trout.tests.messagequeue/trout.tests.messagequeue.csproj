@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="mocks\InMemoryAttachmentFileSystem.cs" />
     <Compile Include="overrides\OverrideTests.cs" />
     <Compile Include="filters\FilterTests.cs" />

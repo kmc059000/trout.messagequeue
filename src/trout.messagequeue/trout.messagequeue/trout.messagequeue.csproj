@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="attachments\AttachmentFileSystem.cs" />
     <Compile Include="attachments\IAttachmentFileSystem.cs" />
     <Compile Include="config\staticoverrides\ConfigFileStaticOverridesProvider.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="infrastrucure\dependencies\IDependencyResolver.cs" />
     <Compile Include="infrastrucure\dependencies\StructureMapDependencyResolver.cs" />
     <Compile Include="infrastrucure\logging\TroutLog.cs" />
+    <Compile Include="infrastrucure\TroutException.cs" />
     <Compile Include="smtp\SendResult.cs" />
     <Compile Include="model\repository\DbSetRepository.cs" />
     <Compile Include="model\IEmailQueueDbContext.cs" />
