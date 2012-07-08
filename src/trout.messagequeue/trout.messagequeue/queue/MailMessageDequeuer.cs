@@ -18,10 +18,12 @@ namespace trout.messagequeue.queue
         private readonly ISmtpClient SmtpClient;
         private readonly IEmailQueueDbContext Context;
         private readonly IAttachmentFileSystem AttachmentFileSystem;
+        private readonly IStaticOverridesProvider _staticOverridesesProvider;
 
-        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem)
+        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem, IStaticOverridesProvider staticOverridesesProvider)
         {
             Config = config;
+            _staticOverridesesProvider = staticOverridesesProvider;
             AttachmentFileSystem = attachmentFileSystem;
             Context = context;
             SmtpClient = smtpClient;
@@ -32,12 +34,11 @@ namespace trout.messagequeue.queue
             TroutLog.Log.Info(string.Format("Beginning dequeuing with{0} auditing at", audit ? "" : "out"));
 
             List<DequeueResultItem> results = new List<DequeueResultItem>();
-            var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
             var messages = filters.Filter(Context);
 
             foreach (var message in messages.ToList())
             {
-                MailMessage mailMessage = GetMailMessage(message, staticOverrideList, overrides);
+                MailMessage mailMessage = GetMailMessage(message, overrides);
 
                 foreach (var attachment in AttachmentFileSystem.GetAttachments(message))
                 {
@@ -79,13 +80,12 @@ namespace trout.messagequeue.queue
             TroutLog.Log.Info(string.Format("Retrieving messages"));
 
             List<DequeueListItem> results = new List<DequeueListItem>();
-            var staticOverrideList = StaticOverrideList.GetStaticOverrideList();
 
             var messages = filters.Filter(Context);
 
             foreach (var message in messages.ToList())
             {
-                MailMessage mailMessage = GetMailMessage(message, staticOverrideList, overrides);
+                MailMessage mailMessage = GetMailMessage(message, overrides);
 
                 results.Add(new DequeueListItem(message, mailMessage));
             }
@@ -95,7 +95,7 @@ namespace trout.messagequeue.queue
             return results;
         }
 
-        private MailMessage GetMailMessage(EmailQueueItem message, OverrideList staticOverrideList, OverrideList overrides)
+        private MailMessage GetMailMessage(EmailQueueItem message, OverrideList overrides)
         {
             var mailMessage = new MailMessage();
             mailMessage.From = Config.FromAddress;
@@ -106,7 +106,7 @@ namespace trout.messagequeue.queue
             mailMessage.Body = message.Body;
             mailMessage.IsBodyHtml = message.IsBodyHtml;
 
-            mailMessage = staticOverrideList.ApplyOverrides(mailMessage);
+            mailMessage = _staticOverridesesProvider.StaticOverrides.ApplyOverrides(mailMessage);
             mailMessage = overrides.ApplyOverrides(mailMessage);
             return mailMessage;
         }

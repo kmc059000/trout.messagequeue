@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Configuration;
-using trout.messagequeue.config;
-using trout.messagequeue.config.staticoverrides;
+using trout.messagequeue.queue.overrides;
 
-namespace trout.messagequeue.queue.overrides
+namespace trout.messagequeue.config.staticoverrides
 {
-    public static class StaticOverrideList
+    public sealed class ConfigFileStaticOverridesProvider : IStaticOverridesProvider
     {
-        private static OverrideList List;
+        private OverrideList List;
 
-        public static OverrideList GetStaticOverrideList()
+        public OverrideList StaticOverrides
         {
-            return List ?? (List = CreateStaticOverrideList());
+            get
+            {
+                return List ?? (List = CreateStaticOverrideList());
+            }
         }
 
-        public static void SetStaticOverrideList(OverrideList list)
-        {
-            List = list;
-        }
-
-        private static OverrideList CreateStaticOverrideList()
+        private OverrideList CreateStaticOverrideList()
         {
             OverrideList list = new OverrideList();
 
