@@ -3,13 +3,16 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
+    /// <summary>
+    /// Dequeue filter for emails that have an ID within a specified range. Min and max values are inclusive
+    /// </summary>
     public sealed class IdRangeDequeueFilter : DequeueFilter
     {
         private readonly int RangeMinimum = 0;
         private readonly int RangeMaximum = int.MaxValue;
         
         /// <summary>
-        /// Min and max are inclusive
+        /// Constructor. Min and max values are inclusive.
         /// </summary>
         /// <param name="minimum"></param>
         /// <param name="maximum"></param>

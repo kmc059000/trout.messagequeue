@@ -4,10 +4,16 @@ using trout.messagequeue.queue.overrides;
 
 namespace trout.messagequeue.config.staticoverrides
 {
+    /// <summary>
+    /// Implementation of IStaticOverridesProvider which provides Static Overrides from the application configuration file.
+    /// </summary>
     public sealed class ConfigFileStaticOverridesProvider : IStaticOverridesProvider
     {
         private OverrideList List;
 
+        /// <summary>
+        /// List of all Static Overrides to apply when sending
+        /// </summary>
         public OverrideList StaticOverrides
         {
             get

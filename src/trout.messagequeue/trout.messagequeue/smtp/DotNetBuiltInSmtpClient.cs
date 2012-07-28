@@ -5,12 +5,19 @@ using System.Text;
 
 namespace trout.messagequeue.smtp
 {
+    /// <summary>
+    /// ISmtpClient implementation which uses the .Net built in SmtpClient
+    /// </summary>
     public sealed class DotNetBuiltInSmtpClient : ISmtpClient
     {
         readonly System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
         private const int RetryAttempts = 3;
 
-
+        /// <summary>
+        /// Sends the mail message
+        /// </summary>
+        /// <param name="mailMessage"></param>
+        /// <returns></returns>
         public SendResult Send(MailMessage mailMessage)
         {
             return Send(mailMessage, RetryAttempts);

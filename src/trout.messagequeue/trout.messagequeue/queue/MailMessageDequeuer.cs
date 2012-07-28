@@ -13,6 +13,9 @@ using trout.messagequeue.smtp;
 
 namespace trout.messagequeue.queue
 {
+    /// <summary>
+    /// Dequeuer for Emails which attempts to send emails.
+    /// </summary>
     public sealed class MailMessageDequeuer
     {
         private readonly IMailMessageSenderConfig Config;
@@ -21,6 +24,14 @@ namespace trout.messagequeue.queue
         private readonly IAttachmentFileSystem AttachmentFileSystem;
         private readonly IStaticOverridesProvider StaticOverridesesProvider;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="smtpClient"></param>
+        /// <param name="context"></param>
+        /// <param name="attachmentFileSystem"></param>
+        /// <param name="staticOverridesesProvider"></param>
         public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem, IStaticOverridesProvider staticOverridesesProvider)
         {
             Config = config;
@@ -30,6 +41,13 @@ namespace trout.messagequeue.queue
             SmtpClient = smtpClient;
         }
 
+        /// <summary>
+        /// Sends the messages which match the filters and applies the overrides prior to sending
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="overrides"></param>
+        /// <param name="audit">whether to change the sent status and number of tries for an email</param>
+        /// <returns></returns>
         public IEnumerable<DequeueResultItem> SendQueuedMessages(DequeueFilterList filters, OverrideList overrides, bool audit = true)
         {
             if(filters == null) throw new ArgumentNullException("filters");
@@ -79,6 +97,12 @@ namespace trout.messagequeue.queue
             return results;
         }
 
+        /// <summary>
+        /// Returns emails which match the filter with the provided overrides applied.
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="overrides"></param>
+        /// <returns></returns>
         public IEnumerable<DequeueListItem> GetQueuedMessages(DequeueFilterList filters, OverrideList overrides)
         {
             if (filters == null) throw new ArgumentNullException("filters");

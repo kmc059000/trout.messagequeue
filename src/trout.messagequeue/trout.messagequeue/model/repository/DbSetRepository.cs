@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace trout.messagequeue.model.repository
 {
-    public sealed class DbSetRepository<T> : IRepository<T> where T : class
+    internal sealed class DbSetRepository<T> : IRepository<T> where T : class
     {
         private readonly DbSet<T> Source;
 
@@ -34,7 +35,7 @@ namespace trout.messagequeue.model.repository
             Source.Remove(item);
         }
 
-        public T First(Func<T, bool> filter)
+        public T First(Expression<Func<T, bool>> filter)
         {
             if (filter == null) throw new ArgumentNullException("filter");
 

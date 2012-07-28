@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\trout.messagequeue.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -38,9 +39,6 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -59,15 +57,14 @@
     </Compile>
     <Compile Include="attachments\AttachmentFileSystem.cs" />
     <Compile Include="attachments\IAttachmentFileSystem.cs" />
+    <Compile Include="config\IFileSystemAttachmentHandlerConfig.cs" />
     <Compile Include="config\staticoverrides\ConfigFileStaticOverridesProvider.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideCollection.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationElement.cs" />
     <Compile Include="config\staticoverrides\StaticOverrideConfigurationSectionGroup.cs" />
-    <Compile Include="infrastrucure\dependencies\DependencyResolver.cs" />
-    <Compile Include="infrastrucure\dependencies\IDependencyResolver.cs" />
-    <Compile Include="infrastrucure\dependencies\StructureMapDependencyResolver.cs" />
     <Compile Include="infrastrucure\logging\TroutLog.cs" />
     <Compile Include="infrastrucure\TroutException.cs" />
+    <Compile Include="TroutFacade.cs" />
     <Compile Include="smtp\SendResult.cs" />
     <Compile Include="model\repository\DbSetRepository.cs" />
     <Compile Include="model\IEmailQueueDbContext.cs" />
@@ -91,7 +88,7 @@
     <Compile Include="config\IMailMessageSenderConfig.cs" />
     <Compile Include="smtp\ISmtpClient.cs" />
     <Compile Include="queue\MailMessageQueue.cs" />
-    <Compile Include="config\MailMessageSenderConfig.cs" />
+    <Compile Include="config\TroutConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="smtp\DotNetBuiltInSmtpClient.cs" />
     <Compile Include="queue\filters\SubjectContainsFilter.cs" />

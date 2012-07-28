@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using trout.messagequeue.infrastrucure.dependencies;
 using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeueconsole.arguments;
+using trout.messagequeueconsole.infrastrucure.dependencies;
 
 namespace trout.messagequeueconsole.commands
 {

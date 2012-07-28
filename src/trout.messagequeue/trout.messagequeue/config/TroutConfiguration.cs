@@ -4,19 +4,30 @@ using System.Net.Mail;
 
 namespace trout.messagequeue.config
 {
-    public sealed class MailMessageSenderConfig : ConfigurationSection, IMailMessageSenderConfig
+    /// <summary>
+    /// Trout Configuration taken from configuration file
+    /// </summary>
+    public sealed class TroutConfiguration : ConfigurationSection, IMailMessageSenderConfig, IFileSystemAttachmentHandlerConfig
     {
-        public static MailMessageSenderConfig GetMailMessageSenderConfig(string sectionName = "trout")
+        /// <summary>
+        /// Loads a configuration instance from the configuration file
+        /// </summary>
+        /// <param name="sectionName"></param>
+        /// <returns></returns>
+        public static TroutConfiguration GetMailMessageSenderConfig(string sectionName = "trout")
         {
-            MailMessageSenderConfig section = (MailMessageSenderConfig)ConfigurationManager.GetSection(sectionName);
+            TroutConfiguration section = (TroutConfiguration)ConfigurationManager.GetSection(sectionName);
 
-            return section ?? new MailMessageSenderConfig();
+            return section ?? new TroutConfiguration();
         }
 
-        private MailMessageSenderConfig()
+        private TroutConfiguration()
         {
         }
 
+        /// <summary>
+        /// Number of times an email will be attempted to be sent
+        /// </summary>
         [ConfigurationProperty("maxTries", DefaultValue = 5, IsKey = false, IsRequired = false)]
         public int MaxTries
         {
@@ -38,6 +49,9 @@ namespace trout.messagequeue.config
             set { base["fromName"] = value; }
         }
 
+        /// <summary>
+        /// Path for storage
+        /// </summary>
         [ConfigurationProperty("storagePath", DefaultValue = "C:\\ProgramData\\trout\\", IsKey = false, IsRequired = false)]
         public string StoragePath
         {
@@ -45,12 +59,18 @@ namespace trout.messagequeue.config
             set { base["storagePath"] = value; }
         }
 
-        
+
+        /// <summary>
+        /// Path for storing attachments
+        /// </summary>
         public string AttachmentPath
         {
             get { return StoragePath + "attachments"; }
         }
 
+        /// <summary>
+        /// Address the emails should be sent from
+        /// </summary>
         public MailAddress FromAddress
         {
             get

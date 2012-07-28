@@ -8,17 +8,29 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue
 {
+    /// <summary>
+    /// Queue for mail messages which adds emails to the queue to be sent at a later date.
+    /// </summary>
     public sealed class MailMessageQueue
     {
         private readonly IEmailQueueDbContext Context;
         private readonly IAttachmentFileSystem AttachmentFileSystem;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="attachmentFileSystem"></param>
         public MailMessageQueue(IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem)
         {
             Context = context;
             AttachmentFileSystem = attachmentFileSystem;
         }
 
+        /// <summary>
+        /// Enqueues a single MailMessage to be sent
+        /// </summary>
+        /// <param name="message"></param>
         public void EnqueueMessage(MailMessage message)
         {
             if (message == null) throw new ArgumentNullException("message");
@@ -26,6 +38,10 @@ namespace trout.messagequeue.queue
             EnqueueMessages(new[] {message});
         }
 
+        /// <summary>
+        /// Enqueues a set of MailMessages to be sent
+        /// </summary>
+        /// <param name="messages"></param>
         public void EnqueueMessages(IEnumerable<MailMessage> messages)
         {
             if (messages == null) throw new ArgumentNullException("messages");

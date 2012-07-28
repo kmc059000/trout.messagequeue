@@ -4,6 +4,9 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
+    /// <summary>
+    /// List of Dequeue Filters which should be applied
+    /// </summary>
     public sealed class DequeueFilterList
     {
         private enum FilterOperand
@@ -13,6 +16,9 @@ namespace trout.messagequeue.queue.filters
 
         private readonly Queue<KeyValuePair<FilterOperand, DequeueFilter>> Filters = new Queue<KeyValuePair<FilterOperand, DequeueFilter>>();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DequeueFilterList()
         {
             
@@ -28,12 +34,22 @@ namespace trout.messagequeue.queue.filters
         }
 
 
+        /// <summary>
+        /// Adds a new filter which is the union of all filters than have been added
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public DequeueFilterList And(DequeueFilter filter)
         {
             Filters.Enqueue(new KeyValuePair<FilterOperand, DequeueFilter>(FilterOperand.And, filter));
             return this;
         }
 
+        /// <summary>
+        /// returns EmailQueueItems from the provided context which are belong in the union of all filter cases
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public IEnumerable<EmailQueueItem> Filter(IEmailQueueDbContext context)
         {
             if(Filters.Count == 0)
@@ -67,6 +83,10 @@ namespace trout.messagequeue.queue.filters
             
         }
 
+        /// <summary>
+        /// Returns a new instance of a DequeueFilterList which has the same filters as this item. It does not create new instances of the filters.
+        /// </summary>
+        /// <returns></returns>
         public DequeueFilterList Clone()
         {
             return new DequeueFilterList(this.Filters);

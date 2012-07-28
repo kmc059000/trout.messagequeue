@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace trout.messagequeue.config.staticoverrides
 {
-    public sealed class StaticOverrideConfigurationElement : ConfigurationElement
+    internal sealed class StaticOverrideConfigurationElement : ConfigurationElement
     {
         public Type StaticOverrideType
         {

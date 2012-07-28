@@ -5,6 +5,9 @@
     /// </summary>
     public interface IStaticOverridesProvider
     {
+        /// <summary>
+        /// List of all Static Overrides to apply when sending
+        /// </summary>
         OverrideList StaticOverrides { get; }
     }
 }

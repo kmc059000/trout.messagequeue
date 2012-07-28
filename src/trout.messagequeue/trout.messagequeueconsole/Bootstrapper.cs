@@ -3,12 +3,12 @@ using trout.messagequeue.attachments;
 using trout.messagequeue.config;
 using trout.messagequeue.config.staticoverrides;
 using trout.messagequeue.infrastrucure;
-using trout.messagequeue.infrastrucure.dependencies;
 using trout.messagequeue.model;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.overrides;
 using trout.messagequeue.smtp;
 using trout.messagequeueconsole.commands;
+using trout.messagequeueconsole.infrastrucure.dependencies;
 
 namespace trout.messagequeueconsole
 {
@@ -20,7 +20,10 @@ namespace trout.messagequeueconsole
                                         {
                                             c.For<ISmtpClient>().Use<DotNetBuiltInSmtpClient>();
                                             c.For<IEmailQueueDbContext>().Singleton().Use(() => new EmailQueueDbContext());
-                                            c.For<IMailMessageSenderConfig>().Use(MailMessageSenderConfig.GetMailMessageSenderConfig());
+                                            var config = TroutConfiguration.GetMailMessageSenderConfig();
+                                            c.For<IMailMessageSenderConfig>().Use(config);
+                                            c.For<IMailMessageSenderConfig>().Use(config);
+                                            c.For<IFileSystemAttachmentHandlerConfig>().Use(config);
                                             c.For<IAttachmentFileSystem>().Use<AttachmentFileSystem>();
                                             c.For<IStaticOverridesProvider>().Use<ConfigFileStaticOverridesProvider>();
                                             c.ForConcreteType<MailMessageQueue>();

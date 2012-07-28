@@ -3,10 +3,17 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.queue.filters
 {
+    /// <summary>
+    /// Dequeue filter which filters on whether an email has been sent or not
+    /// </summary>
     public sealed class SentStatusDequeueFilter : DequeueFilter
     {
         private readonly bool IsSent;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="isSent"></param>
         public SentStatusDequeueFilter(bool isSent)
         {
             IsSent = isSent;

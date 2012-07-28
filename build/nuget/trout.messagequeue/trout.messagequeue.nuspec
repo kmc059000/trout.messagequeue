@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+  <id>trout.messagequeue</id>
+    <version>0.0.2</version>
+    <authors>Kenneth Crawford</authors>
+    <owners>Kenneth Crawford</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/kmc059000/trout.messagequeue</projectUrl>
+    <iconUrl>https://github.com/kmc059000/trout.messagequeue/raw/master/docs/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# library for queuing emails in a database and sending asynchronously</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>email MailMessage SmtpClient Smtp message</tags>
+  </metadata>
+  <files>
+		<file src="..\..\..\code_drop\Trout\trout.dll" target="lib\net40"/>
+		<file src="..\..\..\code_drop\Trout\trout.pdb" target="lib\net40"/>
+		<file src="content\web.config.transform" target="content" />
+		<file src="content\app.config.transform" target="content" />
+	</files>
+</package>

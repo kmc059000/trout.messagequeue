@@ -8,6 +8,8 @@
     <SourceDirectory>$(MSBuildStartupDirectory)\src</SourceDirectory>
     <MSBuildCommunityTasksPath>$(ToolsDirectory)\MSBuild.Community.Tasks.v1.2.0.306\Build\</MSBuildCommunityTasksPath>
     <PublishDirectory>$(MSBuildStartupDirectory)\code_drop\</PublishDirectory>
+	<TroutNugetCommand>$(SourceDirectory)\trout.messagequeue\.nuget\nuget.exe pack nuget\trout.messagequeue\trout.messagequeue.nuspec -p Configuration=Release -o $(PublishDirectory)nuget\</TroutNugetCommand>
+    <KeyFile>$(MSBuildStartupDirectory)\build\trout.messagequeue.snk</KeyFile>
   </PropertyGroup>
   
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets"/>
@@ -19,6 +21,7 @@
   <ItemGroup>
     <Solution Include="$(SourceDirectory)\trout.messagequeue\trout.messagequeue.sln"/>
     <ConsoleProject Include="$(SourceDirectory)\trout.messagequeue\trout.messagequeueconsole\trout.messagequeueconsole.csproj"/>
+	<TroutProject Include="$(SourceDirectory)\\trout.messagequeue\trout.messagequeue\trout.messagequeue.csproj"/>
   </ItemGroup>
 
   <Target Name="RunTests">
@@ -31,18 +34,31 @@
   <Target Name="Clean">
     <RemoveDir Directories="$(PublishDirectory)\"></RemoveDir>
     <MakeDir Directories="$(PublishDirectory)"></MakeDir>
+	<MakeDir Directories="$(PublishDirectory)\nuget"></MakeDir>
   </Target>
 
 
   <Target Name="Publish" DependsOnTargets="Clean">
     <MSBuild Projects="@(Solution)" Properties="Configuration=Release;"></MSBuild>
     
-    <MSBuild Projects="@(ConsoleProject)" Properties="Configuration=Release;OutputPath=$(PublishDirectory)\Console"></MSBuild>
+    <MSBuild Projects="@(ConsoleProject)" Properties="Configuration=Release;OutputPath=$(PublishDirectory)\Trout.Console"></MSBuild>
+	<MSBuild Projects="@(TroutProject)" Properties="Configuration=Release;OutputPath=$(PublishDirectory)\Trout"></MSBuild>
 
     <CallTarget Targets="Clean"></CallTarget>
     <CallTarget Targets="RunTests"></CallTarget>
+	<CallTarget Targets="ILMerge"></CallTarget>
+	<CallTarget Targets="PackageOutput"></CallTarget>
   </Target>
   
- 
-
+  <Target Name="PackageOutput">
+	<Exec Command="$(TroutNugetCommand)" />	
+  </Target>
+  
+  <Target Name="ILMerge">
+      <ItemGroup>
+		<LibAssemblies Include="$(PublishDirectory)\Trout\*.dll" Exclude="$(PublishDirectory)\Trout\trout.messagequeue.dll" />
+	  </ItemGroup>
+	  
+	  <Exec Command="$(MSBuildStartupDirectory)\Tools\ilmerge\ILMerge.exe /internalize /keyfile:$(KeyFile) /targetplatform:v4 /out:$(PublishDirectory)\Trout\trout.dll $(PublishDirectory)\Trout\trout.messagequeue.dll @(LibAssemblies->'%(FullPath)', ' ')" />	  	  
+  </Target>
 </Project>

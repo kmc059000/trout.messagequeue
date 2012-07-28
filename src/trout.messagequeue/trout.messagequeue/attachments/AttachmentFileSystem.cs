@@ -10,15 +10,28 @@ using trout.messagequeue.model;
 
 namespace trout.messagequeue.attachments
 {
+    /// <summary>
+    /// Built in IAttachmentFileSystem which saves attachments on disk.
+    /// </summary>
     public sealed class AttachmentFileSystem : IAttachmentFileSystem
     {
-        private readonly IMailMessageSenderConfig Config;
+        private readonly IFileSystemAttachmentHandlerConfig Config;
 
-        public AttachmentFileSystem(IMailMessageSenderConfig config)
+        /// <summary>
+        /// Constructor for AttachmentFileSystem
+        /// </summary>
+        /// <param name="config"></param>
+        public AttachmentFileSystem(IFileSystemAttachmentHandlerConfig config)
         {
             Config = config;
         }
 
+
+        /// <summary>
+        /// Saves attachments on the provided MailMessage based on values in the EmailQueueItem
+        /// </summary>
+        /// <param name="item">EmailQueueItem that attachments are to be saved on</param>
+        /// <param name="mailMessage">MailMessage which contains attachments</param>
         public void SaveAttachments(EmailQueueItem item, MailMessage mailMessage)
         {
             if(item == null) throw new ArgumentNullException("item");
@@ -45,6 +58,11 @@ namespace trout.messagequeue.attachments
             TroutLog.Log.Info(string.Format("Saved {0} attachments for email {1}", mailMessage.Attachments.Count, item.ID));
         }
 
+        /// <summary>
+        /// Retrieves attachments for an EmailQueueItem
+        /// </summary>
+        /// <param name="item">The item to get attachments for</param>
+        /// <returns></returns>
         public Attachment[] GetAttachments(EmailQueueItem item)
         {
             if (item == null) throw new ArgumentNullException("item");
@@ -72,6 +90,10 @@ namespace trout.messagequeue.attachments
             return attachments.ToArray();
         }
 
+        /// <summary>
+        /// Permanently removes attachments for a set of EmailQueueItems.
+        /// </summary>
+        /// <param name="items"></param>
         public void PurgeAttachments(IEnumerable<EmailQueueItem> items)
         {
             if (items == null) throw new ArgumentNullException("items");

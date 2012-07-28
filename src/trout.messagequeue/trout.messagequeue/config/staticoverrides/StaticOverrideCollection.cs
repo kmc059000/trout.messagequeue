@@ -3,7 +3,7 @@
 namespace trout.messagequeue.config.staticoverrides
 {
     [ConfigurationCollection(typeof(StaticOverrideConfigurationElement))]
-    public sealed class StaticOverrideCollection : ConfigurationElementCollection
+    internal sealed class StaticOverrideCollection : ConfigurationElementCollection
     {
         protected override ConfigurationElement CreateNewElement()
         {
