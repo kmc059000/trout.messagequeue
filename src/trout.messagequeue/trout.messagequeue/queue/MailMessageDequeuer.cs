@@ -42,6 +42,18 @@ namespace trout.messagequeue.queue
         }
 
         /// <summary>
+        /// Sends the messages which have not been sent yet. Static overrides are applied.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<DequeueResultItem> SendQueuedMessages()
+        {
+            var filters = new DequeueFilterList().And(new SentStatusDequeueFilter(false));
+            var overrides = new OverrideList();
+
+            return SendQueuedMessages(filters, overrides, true);
+        }
+
+        /// <summary>
         /// Sends the messages which match the filters and applies the overrides prior to sending
         /// </summary>
         /// <param name="filters"></param>
