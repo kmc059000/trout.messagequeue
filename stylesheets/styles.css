@@ -253,3 +253,10 @@ footer {
     color:#444;
   }
 }
+
+.logo{
+	height:128px;
+	width:128px;
+	margin-left: auto;
+	margin-right: auto;
+}
