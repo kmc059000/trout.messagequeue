@@ -14,7 +14,7 @@
   
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets"/>
   <PropertyGroup>
-    <NUnit-ToolPath>$(ToolsDirectory)\NUnit-2.5.10.11092\bin\net-1.1\</NUnit-ToolPath>
+    <NUnit-ToolPath>$(ToolsDirectory)\NUnit-2.5.10.11092\binaries\</NUnit-ToolPath>
   </PropertyGroup>
   
   
