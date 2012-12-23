@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using trout.messagequeue.model;
+using trout.messagequeue.model.repository;
 
 namespace trout.messagequeue.queue.filters
 {
@@ -48,9 +49,9 @@ namespace trout.messagequeue.queue.filters
         /// <summary>
         /// returns EmailQueueItems from the provided context which are belong in the union of all filter cases
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="repository">The repository.</param>
         /// <returns></returns>
-        public IEnumerable<EmailQueueItem> Filter(IEmailQueueDbContext context)
+        public IEnumerable<EmailQueueItem> Filter(IRepository<EmailQueueItem> repository)
         {
             if(Filters.Count == 0)
             {
@@ -59,7 +60,7 @@ namespace trout.messagequeue.queue.filters
 
             int length = Filters.Count;
 
-            var query = context.EmailQueueItemRepo.Fetch();
+            var query = repository.Fetch();
 
             while (length > 0)
             {

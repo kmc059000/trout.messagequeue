@@ -20,7 +20,7 @@ namespace trout.tests.messagequeue.queue
     [TestFixture]
     public class QueueTests
     {
-        private IEmailQueueDbContext Context;
+        private IRepository<EmailQueueItem> Repository;
         private IAttachmentFileSystem AttachmentFileSystem;
         private IMailMessageSenderConfig Config;
         private ISmtpClient SmtpClient;
@@ -29,15 +29,15 @@ namespace trout.tests.messagequeue.queue
         [Test]
         public void EmailsAreSentWithOriginalAttachments()
         {
-            MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, StaticOverridesProvider);
+            MailMessageQueue queue = new MailMessageQueue(Repository, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Repository, AttachmentFileSystem, StaticOverridesProvider);
 
             var mm = new MailMessage();
             mm.Attachments.Add(new Attachment(Path.Combine(Environment.CurrentDirectory, @"testingfiles\sample.pdf")));
 
             queue.EnqueueMessage(mm);
 
-            var emailQueueItem = Context.EmailQueueItemRepo.Fetch().First();
+            var emailQueueItem = Repository.Fetch().First();
 
             var fl = new DequeueFilterList();
             fl.And(new IdDequeueFilter(emailQueueItem.ID));
@@ -67,8 +67,8 @@ namespace trout.tests.messagequeue.queue
         [Test]
         public void MultipleAttachmentsAreSent()
         {
-            MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, StaticOverridesProvider);
+            MailMessageQueue queue = new MailMessageQueue(Repository, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Repository, AttachmentFileSystem, StaticOverridesProvider);
 
             var mm = new MailMessage();
             mm.Attachments.Add(new Attachment(Path.Combine(Environment.CurrentDirectory, @"testingfiles\sample.pdf")));
@@ -76,7 +76,7 @@ namespace trout.tests.messagequeue.queue
 
             queue.EnqueueMessage(mm);
 
-            var emailQueueItem = Context.EmailQueueItemRepo.Fetch().First();
+            var emailQueueItem = Repository.Fetch().First();
 
             var fl = new DequeueFilterList();
             fl.And(new IdDequeueFilter(emailQueueItem.ID));
@@ -129,14 +129,14 @@ namespace trout.tests.messagequeue.queue
             var staticOverridesProviderMock = new Mock<IStaticOverridesProvider>();
             staticOverridesProviderMock.Setup(m => m.StaticOverrides).Returns(testingStaticOverrides);
 
-            MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, staticOverridesProviderMock.Object);
+            MailMessageQueue queue = new MailMessageQueue(Repository, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Repository, AttachmentFileSystem, staticOverridesProviderMock.Object);
 
             var mm = new MailMessage();
 
             queue.EnqueueMessage(mm);
 
-            var emailQueueItem = Context.EmailQueueItemRepo.Fetch().First();
+            var emailQueueItem = Repository.Fetch().First();
 
             var fl = new DequeueFilterList();
             fl.And(new IdDequeueFilter(emailQueueItem.ID));
@@ -155,12 +155,9 @@ namespace trout.tests.messagequeue.queue
         [SetUp]
         public void Setup()
         {
-            var contextMock = new Mock<IEmailQueueDbContext>();
-            var repo = new InMemoryRepository<EmailQueueItem>();
-            contextMock.Setup(c => c.EmailQueueItemRepo).Returns(repo);
-            contextMock.Setup(c => c.SaveChanges());
+            
+            Repository = new InMemoryRepository<EmailQueueItem>();
 
-            Context = contextMock.Object;
             AttachmentFileSystem = new InMemoryAttachmentFileSystem();
 
             var configMock = new Mock<IMailMessageSenderConfig>();

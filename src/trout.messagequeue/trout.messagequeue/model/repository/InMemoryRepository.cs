@@ -55,5 +55,10 @@ namespace trout.messagequeue.model.repository
 
             return Source.FirstOrDefault(filter.Compile());
         }
+
+        public void SaveChanges()
+        {
+            //in memory repository does not persist anything!
+        }
     }
 }

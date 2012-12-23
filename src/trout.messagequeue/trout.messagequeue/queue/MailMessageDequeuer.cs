@@ -7,6 +7,7 @@ using trout.messagequeue.config;
 using trout.messagequeue.infrastrucure;
 using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
+using trout.messagequeue.model.repository;
 using trout.messagequeue.queue.filters;
 using trout.messagequeue.queue.overrides;
 using trout.messagequeue.smtp;
@@ -20,25 +21,26 @@ namespace trout.messagequeue.queue
     {
         private readonly IMailMessageSenderConfig Config;
         private readonly ISmtpClient SmtpClient;
-        private readonly IEmailQueueDbContext Context;
+        private readonly IRepository<EmailQueueItem> Repository;
         private readonly IAttachmentFileSystem AttachmentFileSystem;
         private readonly IStaticOverridesProvider StaticOverridesesProvider;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="config"></param>
-        /// <param name="smtpClient"></param>
-        /// <param name="context"></param>
-        /// <param name="attachmentFileSystem"></param>
-        /// <param name="staticOverridesesProvider"></param>
-        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem, IStaticOverridesProvider staticOverridesesProvider)
+        /// <param name="config">The config.</param>
+        /// <param name="smtpClient">The SMTP client.</param>
+        /// <param name="repository">The repository.</param>
+        /// <param name="attachmentFileSystem">The attachment file system.</param>
+        /// <param name="staticOverridesesProvider">The static overrideses provider.</param>
+        public MailMessageDequeuer(IMailMessageSenderConfig config, ISmtpClient smtpClient, IRepository<EmailQueueItem> repository, IAttachmentFileSystem attachmentFileSystem, IStaticOverridesProvider staticOverridesesProvider)
         {
             Config = config;
+            Repository = repository;
             StaticOverridesesProvider = staticOverridesesProvider;
             AttachmentFileSystem = attachmentFileSystem;
-            Context = context;
             SmtpClient = smtpClient;
+            
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace trout.messagequeue.queue
             TroutLog.Log.Info(string.Format("Beginning dequeuing with{0} auditing at", audit ? "" : "out"));
 
             List<DequeueResultItem> results = new List<DequeueResultItem>();
-            var messages = filters.Filter(Context);
+            var messages = filters.Filter(Repository);
 
             foreach (var message in messages.ToList())
             {
@@ -103,7 +105,7 @@ namespace trout.messagequeue.queue
             }
 
             TroutLog.Log.Info(string.Format("Saving of dequeue results"));
-            Context.SaveChanges();
+            Repository.SaveChanges();
 
 
             return results;
@@ -124,7 +126,7 @@ namespace trout.messagequeue.queue
 
             List<DequeueListItem> results = new List<DequeueListItem>();
 
-            var messages = filters.Filter(Context);
+            var messages = filters.Filter(Repository);
 
             foreach (var message in messages.ToList())
             {

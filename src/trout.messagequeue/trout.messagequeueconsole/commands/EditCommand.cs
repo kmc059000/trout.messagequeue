@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
+using trout.messagequeue.model.repository;
 using trout.messagequeueconsole.arguments;
 
 namespace trout.messagequeueconsole.commands
@@ -11,9 +12,9 @@ namespace trout.messagequeueconsole.commands
     {
         private int EmailID;
         private EmailQueueItem Email;
-        private readonly IEmailQueueDbContext Repository;
+        private readonly IRepository<EmailQueueItem> Repository;
 
-        public EditCommand(IEmailQueueDbContext repository)
+        public EditCommand(IRepository<EmailQueueItem> repository)
         {
             Repository = repository;
         }
@@ -40,7 +41,7 @@ namespace trout.messagequeueconsole.commands
                 return false;
             }
             
-            Email = Repository.EmailQueueItemRepo.First(e => e.ID == EmailID);
+            Email = Repository.First(e => e.ID == EmailID);
 
             return Email != null;
         }

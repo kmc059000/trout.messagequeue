@@ -1,14 +1,10 @@
 ﻿using System.Data.Entity;
-using trout.messagequeue.model.repository;
+using trout.messagequeue.model;
 
-namespace trout.messagequeue.model
+namespace trout.messagequeueconsole.infrastrucure
 {
-    /// <summary>
-    /// DbContext for trout
-    /// </summary>
-    public sealed class EmailQueueDbContext : DbContext, IEmailQueueDbContext
+    public class EmailQueueDbContext : DbContext
     {
-
         public DbSet<EmailQueueItem> EmailQueueItems { get; set; }
 
         /// <summary>
@@ -41,16 +37,6 @@ namespace trout.messagequeue.model
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<EmailQueueItem>().HasKey(i => i.ID);
-        }
-
-        private IRepository<EmailQueueItem> emailRepository;
-
-        /// <summary>
-        /// Returns an IRepository of EmailQueueItems
-        /// </summary>
-        public IRepository<EmailQueueItem> EmailQueueItemRepo
-        {
-            get { return emailRepository ?? (emailRepository = new DbSetRepository<EmailQueueItem>(this.EmailQueueItems)); }
         }
     }
 }

@@ -179,14 +179,14 @@ namespace trout.tests.messagequeue.overrides
             var staticOverridesProviderMock = new Mock<IStaticOverridesProvider>();
             staticOverridesProviderMock.Setup(m => m.StaticOverrides).Returns(testingStaticOverrides);
 
-            MailMessageQueue queue = new MailMessageQueue(Context, AttachmentFileSystem);
-            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Context, AttachmentFileSystem, staticOverridesProviderMock.Object);
+            MailMessageQueue queue = new MailMessageQueue(Repository, AttachmentFileSystem);
+            MailMessageDequeuer dequeuer = new MailMessageDequeuer(Config, SmtpClient, Repository, AttachmentFileSystem, staticOverridesProviderMock.Object);
 
             var mm = new MailMessage();
 
             queue.EnqueueMessage(mm);
 
-            var emailQueueItem = Context.EmailQueueItemRepo.Fetch().First();
+            var emailQueueItem = Repository.Fetch().First();
 
             var fl = new DequeueFilterList();
             fl.And(new IdDequeueFilter(emailQueueItem.ID));
@@ -203,7 +203,7 @@ namespace trout.tests.messagequeue.overrides
         }
 
 
-        private IEmailQueueDbContext Context;
+        private IRepository<EmailQueueItem> Repository;
         private IAttachmentFileSystem AttachmentFileSystem;
         private IMailMessageSenderConfig Config;
         private ISmtpClient SmtpClient;
@@ -211,12 +211,8 @@ namespace trout.tests.messagequeue.overrides
         [SetUp]
         public void Setup()
         {
-            var contextMock = new Mock<IEmailQueueDbContext>();
-            var repo = new InMemoryRepository<EmailQueueItem>();
-            contextMock.Setup(c => c.EmailQueueItemRepo).Returns(repo);
-            contextMock.Setup(c => c.SaveChanges());
-
-            Context = contextMock.Object;
+            Repository = new InMemoryRepository<EmailQueueItem>();
+            
             AttachmentFileSystem = new InMemoryAttachmentFileSystem();
 
             var configMock = new Mock<IMailMessageSenderConfig>();

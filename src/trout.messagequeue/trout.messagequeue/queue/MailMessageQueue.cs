@@ -5,6 +5,7 @@ using System.Net.Mail;
 using trout.messagequeue.attachments;
 using trout.messagequeue.infrastrucure.logging;
 using trout.messagequeue.model;
+using trout.messagequeue.model.repository;
 
 namespace trout.messagequeue.queue
 {
@@ -13,17 +14,17 @@ namespace trout.messagequeue.queue
     /// </summary>
     public sealed class MailMessageQueue
     {
-        private readonly IEmailQueueDbContext Context;
+        private readonly IRepository<EmailQueueItem> Repository;
         private readonly IAttachmentFileSystem AttachmentFileSystem;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="attachmentFileSystem"></param>
-        public MailMessageQueue(IEmailQueueDbContext context, IAttachmentFileSystem attachmentFileSystem)
+        /// <param name="repository">The repository.</param>
+        /// <param name="attachmentFileSystem">The attachment file system.</param>
+        public MailMessageQueue(IRepository<EmailQueueItem> repository, IAttachmentFileSystem attachmentFileSystem)
         {
-            Context = context;
+            Repository = repository;
             AttachmentFileSystem = attachmentFileSystem;
         }
 
@@ -70,10 +71,10 @@ namespace trout.messagequeue.queue
                 
                 createdMessages.Add(new Tuple<EmailQueueItem, MailMessage>(emailQueueItem, message));
                 
-                Context.EmailQueueItemRepo.Add(emailQueueItem);
+                Repository.Add(emailQueueItem);
             }
 
-            Context.SaveChanges();
+            Repository.SaveChanges();
 
             foreach (var createdMessage in createdMessages)
             {

@@ -34,5 +34,7 @@ namespace trout.messagequeue.model.repository
         /// <param name="filter"></param>
         /// <returns></returns>
         T First(Expression<Func<T, bool>> filter);
+
+        void SaveChanges();
     }
 }

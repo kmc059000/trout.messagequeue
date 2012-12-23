@@ -4,10 +4,12 @@ using trout.messagequeue.config;
 using trout.messagequeue.config.staticoverrides;
 using trout.messagequeue.infrastrucure;
 using trout.messagequeue.model;
+using trout.messagequeue.model.repository;
 using trout.messagequeue.queue;
 using trout.messagequeue.queue.overrides;
 using trout.messagequeue.smtp;
 using trout.messagequeueconsole.commands;
+using trout.messagequeueconsole.infrastrucure;
 using trout.messagequeueconsole.infrastrucure.dependencies;
 
 namespace trout.messagequeueconsole
@@ -19,7 +21,7 @@ namespace trout.messagequeueconsole
             ObjectFactory.Configure(c =>
                                         {
                                             c.For<ISmtpClient>().Use<DotNetBuiltInSmtpClient>();
-                                            c.For<IEmailQueueDbContext>().Singleton().Use(() => new EmailQueueDbContext());
+                                            c.For<IRepository<EmailQueueItem>>().Singleton().Use(() => new DbSetRepository<EmailQueueItem>(new EmailQueueDbContext()));
                                             var config = TroutConfiguration.GetMailMessageSenderConfig();
                                             c.For<IMailMessageSenderConfig>().Use(config);
                                             c.For<IMailMessageSenderConfig>().Use(config);
